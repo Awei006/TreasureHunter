@@ -19,34 +19,23 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ActLogin"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".ActMain"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActNewItem"
             android:label="新增物品"
-            android:parentActivityName=".ActMain">
+            android:parentActivityName=".ActMainPage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActMain" />
+                android:value=".ActMainPage" />
         </activity>
         <activity android:name=".ActMemberInfo" />
         <activity
             android:name=".ActItemInfo"
             android:label="物品資訊"
-            android:parentActivityName=".ActMain">
+            android:parentActivityName=".ActMainPage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ActMain" />
+                android:value=".ActMainPage" />
         </activity>
         <activity
             android:name=".ActRegistered"
@@ -55,7 +44,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActLogin" />
+        </activity>
+        <activity android:name=".ActMainPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

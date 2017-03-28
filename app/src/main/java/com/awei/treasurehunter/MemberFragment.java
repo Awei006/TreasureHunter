@@ -12,6 +12,8 @@ import android.widget.GridView;
 
 import java.util.ArrayList;
 
+import static com.awei.treasurehunter.Resources.FUNC_LOGIN;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,10 @@ public class MemberFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_member, container, false);
+        if(!Resources.isLogin){
+            Intent intentLogin = new Intent(getActivity(),ActLogin.class);
+            startActivityForResult(intentLogin,FUNC_LOGIN);
+        }
         for (String s : Resources.TXT_MEMBER)
             listFuncs.add(s);
         for (int i : Resources.ICONS_CLASSIFICATION)

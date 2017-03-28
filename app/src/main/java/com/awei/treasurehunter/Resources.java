@@ -16,7 +16,7 @@ public class Resources {
 
     public static User user = null;
 
-    public static final String FRAG[] = {"重要通知", "一般通知"};
+    public static final String FRAG[] = {"首頁","商城","通知","會員"};
 
     public static final String[] TXT_CLASSIFICATION = {"全部", "男性", "女性", "寵物", "玩具公仔",
             "家電傢俱", "3C電子", "遊戲", "美妝保養", "書籍",

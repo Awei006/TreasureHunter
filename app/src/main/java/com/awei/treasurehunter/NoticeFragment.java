@@ -1,86 +1,60 @@
 package com.awei.treasurehunter;
 
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+
+import java.util.ArrayList;
 
 public class NoticeFragment extends Fragment {
 
+    private String[] content = {"資料修改11", "我的物品", "商城物品", "追蹤物品", "追蹤會員", "我的評價", "現金儲值"};
+    private String[] dates = {"2015/08/0911", "2015/08/09", "2015/08/09", "2015/08/09", "2015/08/09", "2015/08/09", "2015/08/09"};
+    private int[] icons = {R.drawable.ic_mb_eduser,
+            R.drawable.ic_mb_myitem,
+            R.drawable.ic_mb_mall,
+            R.drawable.ic_mb_likeitem,
+            R.drawable.ic_mb_sale,
+            R.drawable.ic_mb_evaluation,
+            R.drawable.ic_mb_cash};
 
-    public NoticeFragment() {
-
-    }
+    private ArrayList<Integer> listIcons = new ArrayList<Integer>();
+    private ArrayList<String> listContent = new ArrayList<String>();
+    private ArrayList<String> listTime = new ArrayList<String>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_notice, container, false);
+        rootView = inflater.inflate(R.layout.fragment_notice, container, false);
+        for (int i : icons)
+            listIcons.add(i);
+        for (String s : content)
+            listContent.add(s);
+        for (String s : dates)
+            listTime.add(s);
 
-        pager = (ViewPager) rootView.findViewById(R.id.pager);
-        pager.setAdapter(new NoticeAdapter(getChildFragmentManager(), getContext()));
-
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(pager);
-        Log.d("TEST", "PAGER");
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
-            }
-        });
-
+        findViewe();
 
         return rootView;
     }
 
-    ViewPager pager;
-    TabLayout tabLayout;
+    private void findViewe() {
 
-    private class NoticeAdapter extends FragmentPagerAdapter {
-        public NoticeAdapter(android.support.v4.app.FragmentManager fm, Context context) {
-            super(fm);
-        }
+        gridView = (GridView) rootView.findViewById(R.id.grid);
+        gridView.setAdapter(new AdapterNotice(getActivity(), listIcons, listContent, listTime));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new NoticeImportantFragment();
-                case 1:
-                    return new NoticeGeneralFragment();
-                default:
-                    return null;
             }
-        }
-
-        @Override
-        public int getCount() {
-            return Resources.FRAG.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return Resources.FRAG[position];
-        }
+        });
     }
 
+    private GridView gridView;
+    private View rootView;
 }
