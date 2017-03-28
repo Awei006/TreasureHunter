@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.awei.treasurehunter.ActItemInfo"
+    android:orientation="vertical"
+    android:paddingTop="50dp"
+    android:padding="5dp"
+    android:background="#DDDDDD">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/itemImg"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:srcCompat="@drawable/ic_bar_treasure"
+                android:background="@drawable/view_shape" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/userIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_mb_likeitem" />
+
+                <TextView
+                    android:id="@+id/UserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="UserName"
+                    android:textSize="25dp"
+                    android:layout_gravity="center"
+                    android:gravity="bottom" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="物品描述"
+                android:layout_marginTop="15dp"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape" />
+
+            <TextView
+                android:id="@+id/txtDescription"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:text="想換甚麼都可以"
+                android:background="@drawable/view_shape"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="交換方式"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/txtShip"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                android:text="面交,郵寄,宅配"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/view_shape" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/btnQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="留言提問"
+                    android:layout_weight="1"
+                    android:background="@drawable/view_shape"
+                    android:layout_marginRight="5dp" />
+
+                <Button
+                    android:id="@+id/btnRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="請求交換"
+                    android:layout_weight="1"
+                    android:background="@drawable/view_shape" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="留言板"
+                android:textSize="20dp"
+                android:background="@drawable/view_shape"
+                android:layout_marginTop="20dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

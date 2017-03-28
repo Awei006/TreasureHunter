@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.awei.treasurehunter">
+
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ActLogin"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".ActMain"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ActNewItem"
+            android:label="新增物品"
+            android:parentActivityName=".ActMain">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActMain" />
+        </activity>
+        <activity android:name=".ActMemberInfo" />
+        <activity
+            android:name=".ActItemInfo"
+            android:label="物品資訊"
+            android:parentActivityName=".ActMain">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActMain" />
+        </activity>
+        <activity
+            android:name=".ActRegistered"
+            android:label="註冊"
+            android:parentActivityName=".ActLogin">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ActLogin" />
+
+        </activity>
+    </application>
+
+</manifest>

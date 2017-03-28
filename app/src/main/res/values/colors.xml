@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#D2B48C</color>
+    <color name="colorPrimaryDark">#8B4513</color>
+    <color name="colorAccent">#D2B48C</color>
+    <color name="lightcyan">#E0FFFF</color>
+    <color name="lightyellow">#FFFFE0</color>
+    <color name="mistyrose">#FFE4E1</color>
+    <color name="lavender">#E6E6FA</color>
+    <color name="wheat">#F5DEB3</color>
+</resources>
