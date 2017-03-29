@@ -7,13 +7,10 @@ import com.awei.info.User;
  */
 
 public class Resources {
-    public static final String ACCOUNT = "awei";
-    public static final String PASSWORD = "1234";
     public static final int CAM_REQUEST = 13323;
     public static final int FUNC_NEW_ITEM = 33;
     public static final int FUNC_LOGIN = 56;
     public static boolean isLogin = false;
-
     public static User user = null;
 
     public static final String FRAG[] = {"首頁","商城","通知","會員"};
@@ -28,7 +25,7 @@ public class Resources {
             R.drawable.ic_c_vehicle, R.drawable.ic_c_dessert, R.drawable.ic_c_daily, R.drawable.ic_c_baby,
             R.drawable.ic_c_ticket, R.drawable.ic_c_sport, R.drawable.ic_c_accessory, R.drawable.ic_c_free,};
 
-    public static final String[] TXT_MEMBER = {"資料修改", "我的物品", "商城物品", "追蹤物品", "追蹤會員", "我的評價", "現金儲值"};
+    public static final String[] TXT_MEMBER = {"資料修改", "我的物品", "商城物品", "追蹤物品", "追蹤會員", "我的評價"};
     private static final int[] ICONS_MEMBER = {R.drawable.ic_mb_eduser, R.drawable.ic_mb_myitem, R.drawable.ic_mb_mall,
             R.drawable.ic_mb_likeitem, R.drawable.ic_mb_sale, R.drawable.ic_mb_evaluation, R.drawable.ic_mb_cash};
 

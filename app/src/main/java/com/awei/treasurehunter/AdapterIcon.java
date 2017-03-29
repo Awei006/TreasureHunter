@@ -48,7 +48,7 @@ class AdapterIcon extends BaseAdapter {
         View row = convertView;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.view_member, null);
+            row = inflater.inflate(R.layout.view_dialog_class, null);
             ImageView image = (ImageView) row.findViewById(R.id.item_img);
             LinearLayout layoutMain = (LinearLayout)row.findViewById(R.id.layoutMain);
             layoutMain.setBackgroundResource(vColor[(int)(Math.random()*5)]);

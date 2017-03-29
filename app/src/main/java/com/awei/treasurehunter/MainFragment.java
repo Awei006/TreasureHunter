@@ -3,6 +3,7 @@ package com.awei.treasurehunter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,12 +60,18 @@ public class MainFragment extends Fragment {
     }
 
     private void initialComponent() {
+        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
+
         gridItem = (GridView) rootView.findViewById(R.id.gridItem);
         itemGridView = new AdapterItemGridView(getActivity());
         gridItem.setAdapter(itemGridView);
         gridItem.setOnItemClickListener(gridItem_itemClick);
+
+
     }
 
     private GridView gridItem;
     private View rootView;
+    private FloatingActionButton fab;
 }

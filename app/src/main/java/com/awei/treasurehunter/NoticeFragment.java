@@ -2,6 +2,7 @@ package com.awei.treasurehunter;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +39,14 @@ public class NoticeFragment extends Fragment {
         for (String s : dates)
             listTime.add(s);
 
-        findViewe();
+        initialComponent();
 
         return rootView;
     }
 
-    private void findViewe() {
+    private void initialComponent() {
+        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.INVISIBLE);
 
         gridView = (GridView) rootView.findViewById(R.id.grid);
         gridView.setAdapter(new AdapterNotice(getActivity(), listIcons, listContent, listTime));
@@ -57,4 +60,5 @@ public class NoticeFragment extends Fragment {
 
     private GridView gridView;
     private View rootView;
+    private FloatingActionButton fab;
 }

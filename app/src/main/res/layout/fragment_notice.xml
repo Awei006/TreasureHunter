@@ -11,4 +11,5 @@
         android:id="@+id/grid">
 
     </GridView>
+
 </LinearLayout>
