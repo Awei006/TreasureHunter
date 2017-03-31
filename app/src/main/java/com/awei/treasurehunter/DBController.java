@@ -3,6 +3,7 @@ package com.awei.treasurehunter;
 import android.os.StrictMode;
 
 import com.awei.info.Item;
+import com.awei.info.Question;
 import com.awei.info.User;
 
 import java.sql.Connection;
@@ -21,7 +22,6 @@ public class DBController {
 
     public static Connection getConnection() {
         Connection conn = null;
-
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -200,5 +200,49 @@ public class DBController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static void cQuestion(Question q){
+
+        try {
+            Connection conn = getConnection();
+            String strSql = "INSERT INTO question (itemId,userId,questionDescription,questionTime)" +
+                    "values(?,?,?,?)";
+            PreparedStatement state = conn.prepareStatement(strSql);
+            state.setInt(1, q.getItemId());
+            state.setInt(2, q.getUserId());
+            state.setString(3, q.getDescription());
+            state.setDate(4, q.getTime());
+            state.executeUpdate();
+            state.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Question> rQurstion(int itemId){
+        ArrayList<Question> listQuestion = new ArrayList<>();
+
+        try {
+            Connection conn = getConnection();
+            if(conn!=null && !conn.isClosed()){
+                String strSql = "SELECT * from question where itemId = ?";
+                PreparedStatement state = conn.prepareStatement(strSql);
+                ResultSet rs = state.executeQuery();
+
+                while (rs.next()) {
+                    Question question = new Question(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+                            rs.getString(4), rs.getDate(5));
+                    listQuestion.add(question);
+                }
+
+                rs.close();
+                state.close();
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listQuestion;
     }
 }

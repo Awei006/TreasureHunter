@@ -19,7 +19,6 @@ public class MallFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,8 +30,6 @@ public class MallFragment extends Fragment {
     }
 
     private void initialComponent() {
-        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        fab.setVisibility(View.INVISIBLE);
     }
     private View rootView;
     private FloatingActionButton fab;

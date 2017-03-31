@@ -36,6 +36,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActMainPage" />
+
         </activity>
         <activity
             android:name=".ActRegistered"

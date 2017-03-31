@@ -24,10 +24,8 @@ public class MemberFragment extends Fragment {
     }
 
     private void initialComponent() {
-        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        fab.setVisibility(View.INVISIBLE);
-    }
 
+    }
     private View rootView;
     private FloatingActionButton fab;
 }

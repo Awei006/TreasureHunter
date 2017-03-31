@@ -45,8 +45,6 @@ public class NoticeFragment extends Fragment {
     }
 
     private void initialComponent() {
-        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        fab.setVisibility(View.INVISIBLE);
 
         gridView = (GridView) rootView.findViewById(R.id.grid);
         gridView.setAdapter(new AdapterNotice(getActivity(), listIcons, listContent, listTime));

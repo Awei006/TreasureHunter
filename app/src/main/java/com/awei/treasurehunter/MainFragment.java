@@ -32,6 +32,7 @@ public class MainFragment extends Fragment {
             User user = DBController.queryUser(item.userId);
             Intent inte = new Intent(getActivity(), ActItemInfo.class);
             Bundle bundle = new Bundle();
+            bundle.putInt("itemId", item.itemId);
             bundle.putInt("itemImg", R.drawable.ic_mb_cash);
             bundle.putInt("userIcon", R.drawable.ic_mb_eduser);
             bundle.putString("userName", user.userNickname);
@@ -60,15 +61,10 @@ public class MainFragment extends Fragment {
     }
 
     private void initialComponent() {
-        fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-        fab.setVisibility(View.VISIBLE);
-
         gridItem = (GridView) rootView.findViewById(R.id.gridItem);
         itemGridView = new AdapterItemGridView(getActivity());
         gridItem.setAdapter(itemGridView);
         gridItem.setOnItemClickListener(gridItem_itemClick);
-
-
     }
 
     private GridView gridItem;
