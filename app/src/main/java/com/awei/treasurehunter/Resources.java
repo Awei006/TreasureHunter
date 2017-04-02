@@ -1,17 +1,27 @@
 package com.awei.treasurehunter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import com.awei.info.Item;
 import com.awei.info.User;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by iii on 2017/3/22.
  */
 
 public class Resources {
-    public static final int CAM_REQUEST = 13323;
     public static final int FUNC_NEW_ITEM = 33;
     public static final int FUNC_LOGIN = 56;
     public static boolean isLogin = false;
     public static User user = null;
+    public static Item itemClick = null;
 
     public static final String FRAG[] = {"首頁","商城","通知","會員"};
 
@@ -30,4 +40,23 @@ public class Resources {
             R.drawable.ic_mb_likeitem, R.drawable.ic_mb_sale, R.drawable.ic_mb_evaluation, R.drawable.ic_mb_cash};
 
     public static final String[] TXT_CITY = {"請選擇", "台北市", "新北市", "台中市", "高雄市", "屏東縣", "桃園縣", "嘉義縣", "花蓮縣", "宜蘭縣"};
+
+
+    public static Bitmap getBitmapFromURL(String src){
+
+        try {
+            URL url = new URL(src);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.connect();
+
+            InputStream input = conn.getInputStream();
+            Bitmap mBitmap = BitmapFactory.decodeStream(input);
+            return mBitmap;
+
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

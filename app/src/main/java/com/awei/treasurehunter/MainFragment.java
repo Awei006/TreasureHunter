@@ -20,7 +20,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class MainFragment extends Fragment {
 
+    private final int NEW_ITEM = 876;
     private AdapterItemGridView itemGridView;
+
 
     public MainFragment() {
 
@@ -28,24 +30,22 @@ public class MainFragment extends Fragment {
     AdapterView.OnItemClickListener gridItem_itemClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Item item = (Item) itemGridView.getItem(position);
-            User user = DBController.queryUser(item.userId);
+            Resources.itemClick = (Item) itemGridView.getItem(position);
+            User user = DBController.queryUser(Resources.itemClick.userId);
             Intent inte = new Intent(getActivity(), ActItemInfo.class);
             Bundle bundle = new Bundle();
-            bundle.putInt("itemId", item.itemId);
-            bundle.putInt("itemImg", R.drawable.ic_mb_cash);
-            bundle.putInt("userIcon", R.drawable.ic_mb_eduser);
-            bundle.putString("userName", user.userNickname);
-            bundle.putString("description", item.itemDescription);
-            bundle.putString("ship", "面交,郵寄,黑貓");
+            bundle.putInt(Dictionary.USER_CITY, user.addressId);
+            bundle.putString(Dictionary.USER_NICKNAME, user.userNickname);
+            bundle.putString(Dictionary.USER_PHOTO, user.userPhoto);
+            bundle.putString(Dictionary.USER_SHIP, "面交,郵寄,黑貓");
             inte.putExtras(bundle);
             startActivity(inte);
         }
     };
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Resources.FUNC_NEW_ITEM) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEW_ITEM) {
                 Toast.makeText(getActivity(), "新增成功", Toast.LENGTH_LONG).show();
             }
         }
@@ -69,5 +69,4 @@ public class MainFragment extends Fragment {
 
     private GridView gridItem;
     private View rootView;
-    private FloatingActionButton fab;
 }

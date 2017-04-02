@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/imgView"
         android:layout_width="match_parent"
         android:layout_height="16dp"
         app:srcCompat="@drawable/ic_line"
@@ -13,11 +14,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="102dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imgPhoto"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             app:srcCompat="@drawable/ic_c_toy"
@@ -31,18 +32,21 @@
 
 
             <TextView
+                android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:text="流言人"
                 android:textSize="15dp"
                 android:layout_weight="0.5"/>
             <TextView
+                android:id="@+id/txtContent"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:textSize="20dp"
                 android:text="內容"
                 android:layout_weight="1"/>
             <TextView
+                android:id="@+id/txtDate"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
                 android:text="日期"
@@ -50,8 +54,31 @@
                 android:layout_gravity="center"
                 android:gravity="right"/>
         </LinearLayout>
+
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/txtAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="回復訊息"
+            android:textSize="20dp"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:layout_weight="0.3"/>
 
+        <Button
+            android:id="@+id/btnAns"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:text="回覆"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
 
 </LinearLayout>

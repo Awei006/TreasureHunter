@@ -1,27 +1,25 @@
 package com.awei.treasurehunter;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kosalgeek.android.photoutil.CameraPhoto;
-
 import java.io.ByteArrayOutputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static com.awei.treasurehunter.Resources.ICONS_CLASSIFICATION;
@@ -29,44 +27,42 @@ import static com.awei.treasurehunter.Resources.TXT_CLASSIFICATION;
 
 public class ActNewItem extends AppCompatActivity {
 
-    CameraPhoto cameraPhoto;
+    private final int RESULT_IMG1 = 235;
+    private final int RESULT_IMG2 = 236;
+    private final int RESULT_IMG3 = 237;
+    public final String URL = "http://cr3fp4.azurewebsites.net/uploads/uploadimage.php";
+    private static String _imageFileName,_bytes64Sting;
+    private RequestPackage rp;
 
     private void upLoadItem() {
+        _imageFileName = String.valueOf(System.currentTimeMillis());
+
         DBController.newItem(Resources.user.userId, edTitle.getText().toString(),
-                edDescription.getText().toString(),"PhotoPath",
+                edDescription.getText().toString(),_imageFileName,
                 spClassification.getSelectedItemPosition());
 
-        Toast.makeText(this, "新增物品成功", Toast.LENGTH_LONG).show();
-        finish();
-        /*Bitmap bitmap = ((BitmapDrawable) itemImg1.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] bytes = stream.toByteArray();*/
+        upLoadImg(itemImg1,_imageFileName + "A");
+        upLoadImg(itemImg2,_imageFileName + "B");
+        upLoadImg(itemImg3,_imageFileName + "C");
+        //finish();
+    }
 
-        /*String strSql = "INSERT INTO tItem (fTitle,fDescription,fImage,fClassification)" +
-                      "values(?,?,?,?)";
-                PreparedStatement state = conn.prepareStatement(strSql);
-                state.setString(1,edTitle.getText().toString());
-                state.setString(2,edDescription.getText().toString());
-                state.setString(4,spClassification.getSelectedItem().toString());
-                state.setBytes(3,bytes);
-                state.executeUpdate();
-                state.close();
-                conn.close();*/
+    private void upLoadImg(ImageButton image,String fileName){
+        Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+        byte[] byteArray = bao.toByteArray();
+        _bytes64Sting = Base64.encodeBytes(byteArray);
+        rp = new RequestPackage();
+        rp.setMethod("POST");
+        rp.setUri(URL);
+        rp.setSingleParam("base64", _bytes64Sting);
+        rp.setSingleParam("ImageName", fileName + ".jpg");
 
-        /*Intent intent = getIntent();
-        Bundle bund = new Bundle();
-        bund.putString("title",edTitle.getText().toString());
-        bund.putString("content",edDescription.getText().toString());
-        bund.putByteArray("img",bytes);
-        bund.putString("classification",spClassification.getSelectedItem().toString());
-        intent.putExtras(bund);
-        setResult(RESULT_OK,intent);*/
-
+        new uploadToServer().execute(rp);
     }
 
     private void spSetAdapter() {
-
         ArrayList<String> listFuncs = new ArrayList<String>();
         ArrayList<Integer> listIcon = new ArrayList<Integer>();
         for (String s : TXT_CLASSIFICATION)
@@ -74,25 +70,55 @@ public class ActNewItem extends AppCompatActivity {
         for (int i : ICONS_CLASSIFICATION)
             listIcon.add(i);
 
-        spClassification.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                new String[]{"全部", "男性", "女性", "應兒", "玩具", "書籍", "家電"}));
+        spClassification.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                Resources.TXT_CLASSIFICATION));
     }
 
-    View.OnClickListener btnUpload_click = new View.OnClickListener() {
+    View.OnClickListener itemImg1_click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(camera_intent, Resources.CAM_REQUEST);
+            startActivityForResult(camera_intent, RESULT_IMG1);
+        }
+    };
+    View.OnClickListener itemImg2_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(camera_intent, RESULT_IMG2);
+        }
+    };
+    View.OnClickListener itemImg3_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(camera_intent, RESULT_IMG3);
         }
     };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == Resources.CAM_REQUEST) {
+            if (requestCode == RESULT_IMG1) {
                 Bitmap cameraImage = (Bitmap) data.getExtras().get("data");
                 itemImg1.setImageBitmap(cameraImage);
             }
+            if (requestCode == RESULT_IMG2) {
+                Bitmap cameraImage = (Bitmap) data.getExtras().get("data");
+                itemImg2.setImageBitmap(cameraImage);
+            }
+            if (requestCode == RESULT_IMG3) {
+                Bitmap cameraImage = (Bitmap) data.getExtras().get("data");
+                itemImg3.setImageBitmap(cameraImage);
+            }
+
+        } else if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(getApplicationContext(),
+                    "User cancelled image capture", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Sorry! Failed to capture image", Toast.LENGTH_SHORT)
+                    .show();
         }
     }
 
@@ -119,27 +145,51 @@ public class ActNewItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_new_item);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cameraPhoto = new CameraPhoto(getApplicationContext());
         initialComponent();
     }
 
     private void initialComponent() {
-        itemImg1 = (ImageView) findViewById(R.id.item_img1);
-        itemImg2 = (ImageView) findViewById(R.id.item_img2);
-        itemImg3 = (ImageView) findViewById(R.id.item_img3);
-        btnUpload = (Button) findViewById(R.id.btn_upload);
+        itemImg1 = (ImageButton) findViewById(R.id.item_img1);
+        itemImg2 = (ImageButton) findViewById(R.id.item_img2);
+        itemImg3 = (ImageButton) findViewById(R.id.item_img3);
         edTitle = (EditText) findViewById(R.id.ed_title);
         edDescription = (EditText) findViewById(R.id.ed_description);
         spClassification = (Spinner) findViewById(R.id.sp_classification);
 
-        btnUpload.setOnClickListener(btnUpload_click);
+        itemImg1.setOnClickListener(itemImg1_click);
+        itemImg2.setOnClickListener(itemImg2_click);
+        itemImg3.setOnClickListener(itemImg3_click);
         spSetAdapter();
     }
 
-    ImageView itemImg1, itemImg2, itemImg3;
-    Button btnUpload;
+    ImageButton itemImg1, itemImg2, itemImg3;
     EditText edTitle, edDescription;
     Spinner spClassification;
 
+    public class uploadToServer extends AsyncTask<RequestPackage, Void, String> {
 
+        private ProgressDialog pd = new ProgressDialog(ActNewItem.this);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("TAG",_imageFileName+".jpg");
+            pd.setMessage("Image uploading!, please wait..");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = MyHttpURLConnection.getData(params[0]);
+            Log.d("TAG",content);
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+        }
+    }
 }

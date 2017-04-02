@@ -4,83 +4,127 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.awei.treasurehunter.MemberFragment"
-    android:layout_marginTop="10dp"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <LinearLayout
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/pic_member" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="羅嘉偉"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="25dp"
-                android:layout_weight="0.3"/>
-
-        </LinearLayout>
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="150dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="0.3">
+                android:orientation="vertical"
+                android:weightSum="1">
+
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/imageView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/pic_member" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/textView10"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_weight="0.6"
-                    android:gravity="center_vertical"
-                    android:text="3.5"
-                    android:textSize="50dp" />
+                    android:layout_height="wrap_content"
+                    android:text="羅嘉偉"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="25dp"
+                    android:layout_weight="0.3"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="0.3">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_mb_star"
+                        />
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="0.6"
+                        android:gravity="center_vertical"
+                        android:text="3.5"
+                        android:textSize="50dp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="編輯你的個人資料"
+                    android:textSize="13dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:gravity="center">
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="編輯你的個人資料"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="13dp"
-                android:layout_weight="1"
-                />
+                android:layout_height="wrap_content"
+                android:text="交易紀錄"
+                android:id="@+id/btnRecord"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="評價"
+                android:id="@+id/btnEvaluation"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="追蹤"
+                android:id="@+id/btnTrack"/>
+
         </LinearLayout>
     </LinearLayout>
 
-    <GridView
+    <FrameLayout
+        android:id="@+id/mb_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></GridView>
+        android:layout_height="match_parent"
+        android:layout_weight="0.8">
+
+    </FrameLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="#333333"
+        app:itemTextColor="#333333"
+        app:menu="@menu/menu_mb_frag">
+
+    </android.support.design.widget.BottomNavigationView>
 </LinearLayout>

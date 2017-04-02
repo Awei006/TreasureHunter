@@ -22,7 +22,7 @@ public class ActLogin extends AppCompatActivity {
             User user = DBController.queryLogin(edAccount.getText().toString(),edPassword.getText().toString());
             if(user !=null){
                 Resources.user = user;
-                setResult(RESULT_OK);
+                Resources.isLogin = true;
                 finish();
             }else{
                 Toast.makeText(ActLogin.this, "查無此人", Toast.LENGTH_LONG).show();

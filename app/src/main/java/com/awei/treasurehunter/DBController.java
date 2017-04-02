@@ -100,8 +100,9 @@ public class DBController {
 
                 while (rs.next()) {
                     Item item = new Item(rs.getInt(1), rs.getInt(2), rs.getString(3),
-                            rs.getString(4), rs.getString(5), rs.getInt(6));
+                            rs.getString(4), rs.getString(6), rs.getInt(5));
                     listItem.add(item);
+
                 }
 
                 rs.close();
@@ -180,7 +181,7 @@ public class DBController {
             state.setString(2, itemName);
             state.setString(3, itemDescription);
             state.setString(4, itemPicture);
-            state.setInt(5, 1);
+            state.setInt(5, itemClassId);
             state.executeUpdate();
             state.close();
             conn.close();
@@ -220,7 +221,7 @@ public class DBController {
         }
     }
 
-    public static ArrayList<Question> rQurstion(int itemId){
+    public static ArrayList<Question> rQuestion(int itemId){
         ArrayList<Question> listQuestion = new ArrayList<>();
 
         try {
@@ -228,11 +229,12 @@ public class DBController {
             if(conn!=null && !conn.isClosed()){
                 String strSql = "SELECT * from question where itemId = ?";
                 PreparedStatement state = conn.prepareStatement(strSql);
+                state.setInt(1, Resources.itemClick.itemId);
                 ResultSet rs = state.executeQuery();
 
                 while (rs.next()) {
                     Question question = new Question(rs.getInt(1), rs.getInt(2), rs.getInt(3),
-                            rs.getString(4), rs.getDate(5));
+                            rs.getString(4),rs.getString(5), rs.getDate(6));
                     listQuestion.add(question);
                 }
 
@@ -244,5 +246,20 @@ public class DBController {
             e.printStackTrace();
         }
         return listQuestion;
+    }
+    public static void uQuestion(int questionId,String ans){
+        try {
+            Connection conn = getConnection();
+            String strSql = "UPDATE question SET questionAnswer = ?" +
+                    " WHERE questionId = ?";
+            PreparedStatement state = conn.prepareStatement(strSql);
+            state.setString(1, ans);
+            state.setInt(2, questionId);
+            state.executeUpdate();
+            state.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

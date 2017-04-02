@@ -1,6 +1,8 @@
 package com.awei.treasurehunter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +14,10 @@ import com.awei.info.Item;
 
 import java.util.ArrayList;
 
-/**
- * Created by aaa86 on 2017/3/22.
- */
-
 class AdapterItemGridView extends BaseAdapter {
     Context context;
     ArrayList<Item> listItem = new ArrayList<>();
+    private String imgPath = "http://cr3fp4.azurewebsites.net/uploads/";
 
     public AdapterItemGridView(Context c) {
         this.context = c;
@@ -43,13 +42,12 @@ class AdapterItemGridView extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        /*Bitmap bitmap = BitmapFactory.decodeByteArray(
-                ActMain.listIcons.get(position),0,ActMain.listIcons.get(position).length);*/
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.view_main, null);
             ImageView image = (ImageView) row.findViewById(R.id.item_img);
             image.setImageResource(R.drawable.ic_bar_treasure);
+            image.setImageBitmap(Resources.getBitmapFromURL(imgPath + listItem.get(position).itemPicture + "A.jpg"));
             TextView text = (TextView) row.findViewById(R.id.item_text);
             text.setText(listItem.get(position).itemName);
         }

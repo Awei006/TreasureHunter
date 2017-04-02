@@ -144,8 +144,15 @@ public class ActMainPage extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent inte = new Intent(ActMainPage.this, ActNewItem.class);
-                startActivityForResult(inte, FUNC_NEW_ITEM);
+                if(!Resources.isLogin) {
+                    Intent intentLogin = new Intent(getApplicationContext(), ActLogin.class);
+                    startActivity(intentLogin);
+                    return;
+                }
+                if(Resources.isLogin){
+                    Intent inte = new Intent(ActMainPage.this, ActNewItem.class);
+                    startActivityForResult(inte, FUNC_NEW_ITEM);
+                }
             }
         });
     }

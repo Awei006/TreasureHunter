@@ -143,7 +143,7 @@ public class ActRegistered extends AppCompatActivity {
                             edPhone.getText().toString(),
                             edEmail.getText().toString(),
                             edNickname.getText().toString(),
-                            1,
+                            2,
                             dateForSql,
                             sex);
                     finish();

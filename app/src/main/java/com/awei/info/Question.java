@@ -8,14 +8,16 @@ public class Question {
     private int itemId;
     private int userId;
     private String description;
+    private String answer;
     private Date time;
 
-    public Question(int questionId, int itemId, int userId, String description, Date time) {
+    public Question(int questionId, int itemId, int userId, String description,String answer, Date time) {
         this.questionId = questionId;
         this.itemId = itemId;
         this.userId = userId;
         this.description = description;
         this.time = time;
+        this.answer = answer;
     }
 
     public int getQuestionId() {
@@ -56,5 +58,13 @@ public class Question {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }
