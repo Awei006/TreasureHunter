@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,12 +18,8 @@ import android.widget.TextView;
 import com.awei.info.Question;
 import com.awei.info.User;
 
-import net.sourceforge.jtds.jdbc.DateTime;
-
 import java.sql.Date;
 import java.util.ArrayList;
-
-import static com.awei.treasurehunter.Resources.FUNC_LOGIN;
 
 public class ActItemInfo extends AppCompatActivity {
 
@@ -135,6 +132,13 @@ public class ActItemInfo extends AppCompatActivity {
         dialogQuestion = builder.show();
     }
 
+    View.OnClickListener imgbtnTrack_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+                //追蹤物品按鈕事件
+        }
+    };
+
     View.OnClickListener btnRequest_click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -173,13 +177,16 @@ public class ActItemInfo extends AppCompatActivity {
         itemLayout = (LinearLayout)findViewById(R.id.itemLayout);
         btnQuestion = (Button)findViewById(R.id.btnQuestion);
         btnRequest = (Button)findViewById(R.id.btnRequest);
+        imgbtnTrack = (ImageButton)findViewById(R.id.imgbtnTrack);
 
 
         btnQuestion.setOnClickListener(btnQuestion_click);
         btnRequest.setOnClickListener(btnRequest_click);
+        imgbtnTrack.setOnClickListener(imgbtnTrack_click);
     }
     TextView userName, description, ship,userCity;
     ImageView itemIcon, userIcon;
     LinearLayout itemLayout;
     Button btnQuestion,btnRequest;
+    ImageButton imgbtnTrack;
 }

@@ -39,15 +39,18 @@ public class ActNewItem extends AppCompatActivity {
 
         DBController.newItem(Resources.user.userId, edTitle.getText().toString(),
                 edDescription.getText().toString(),_imageFileName,
-                spClassification.getSelectedItemPosition());
+                spClassification.getSelectedItemPosition()+1);
 
-        upLoadImg(itemImg1,_imageFileName + "A");
-        upLoadImg(itemImg2,_imageFileName + "B");
         upLoadImg(itemImg3,_imageFileName + "C");
+        upLoadImg(itemImg2,_imageFileName + "B");
+        upLoadImg(itemImg1,_imageFileName + "A");
         //finish();
+        Resources.doRefreshScreen = true;
     }
 
     private void upLoadImg(ImageButton image,String fileName){
+        if(image.getId() == R.id.item_img1)
+            Resources.closeUpload = true;
         Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
@@ -146,6 +149,8 @@ public class ActNewItem extends AppCompatActivity {
         setContentView(R.layout.activity_act_new_item);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initialComponent();
+
+        Resources.closeUpload = false;
     }
 
     private void initialComponent() {
@@ -172,7 +177,7 @@ public class ActNewItem extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             Log.d("TAG",_imageFileName+".jpg");
-            pd.setMessage("Image uploading!, please wait..");
+            pd.setMessage("物品上傳中!!請稍後");
             pd.setCancelable(false);
             pd.show();
         }
@@ -181,7 +186,6 @@ public class ActNewItem extends AppCompatActivity {
         protected String doInBackground(RequestPackage... params) {
 
             String content = MyHttpURLConnection.getData(params[0]);
-            Log.d("TAG",content);
             return content;
 
         }
@@ -190,6 +194,8 @@ public class ActNewItem extends AppCompatActivity {
             super.onPostExecute(result);
             pd.hide();
             pd.dismiss();
+            if(Resources.closeUpload)
+                finish();
         }
     }
 }

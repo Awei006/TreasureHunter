@@ -17,11 +17,12 @@ import java.net.URL;
  */
 
 public class Resources {
-    public static final int FUNC_NEW_ITEM = 33;
-    public static final int FUNC_LOGIN = 56;
+    public static final String imgPath = "http://cr3fp4.azurewebsites.net/uploads/";
     public static boolean isLogin = false;
     public static User user = null;
     public static Item itemClick = null;
+    public static boolean doRefreshScreen = false;
+    public static boolean closeUpload = false;
 
     public static final String FRAG[] = {"首頁","商城","通知","會員"};
 

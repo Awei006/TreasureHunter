@@ -50,12 +50,18 @@
                     android:gravity="bottom" />
                 <TextView
                     android:id="@+id/txtCity"
-                    android:layout_width="150dp"
+                    android:layout_width="102dp"
                     android:layout_height="match_parent"
                     android:text="userAddress"
                     android:textSize="25dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="bottom" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_mb_likeitem"
+                    android:layout_gravity="end"
+                    android:id="@+id/imgbtnTrack"/>
 
             </LinearLayout>
 

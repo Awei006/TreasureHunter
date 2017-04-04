@@ -15,4 +15,11 @@
         android:icon="@drawable/ic_mb_mall"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/menu_record"
+        android:enabled="true"
+        android:title="交換紀錄"
+        android:icon="@drawable/ic_mb_eduser"
+        app:showAsAction="ifRoom"
+        />
 </menu>

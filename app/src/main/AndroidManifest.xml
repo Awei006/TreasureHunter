@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ActLogin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActNewItem"
             android:label="新增物品"
@@ -28,7 +28,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActMainPage" />
         </activity>
-        <activity android:name=".ActMemberInfo" />
         <activity
             android:name=".ActItemInfo"
             android:label="物品資訊"
@@ -36,7 +35,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActMainPage" />
-
         </activity>
         <activity
             android:name=".ActRegistered"
@@ -53,6 +51,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ActEditInfo"
+            android:label="編輯個人資料" />
+        <activity android:name=".ActTrack" />
+        <activity android:name=".ActEvaluation" />
+        <activity android:name=".ActRecord"></activity>
     </application>
 
 </manifest>

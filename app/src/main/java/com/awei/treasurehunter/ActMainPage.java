@@ -1,32 +1,68 @@
 package com.awei.treasurehunter;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.awei.treasurehunter.Resources.FUNC_LOGIN;
-import static com.awei.treasurehunter.Resources.FUNC_NEW_ITEM;
 import static com.awei.treasurehunter.Resources.ICONS_CLASSIFICATION;
 import static com.awei.treasurehunter.Resources.TXT_CLASSIFICATION;
 
 public class ActMainPage extends AppCompatActivity {
 
     private AlertDialog dialogClass;
+    private final int LOGIN_REQUEST = 10;
+    private final int NEW_ITEM_REQUEST = 11;
+
+    public boolean onKeyDown(int keyCode,KeyEvent event){
+
+        if(keyCode==KeyEvent.KEYCODE_BACK && event.getRepeatCount()==0){
+            dialogClose();
+        }
+        return false;
+    }
+    private void dialogClose(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ActMainPage.this);
+
+        builder.setMessage("確定要離開？");
+
+        builder.setTitle("離開");
+
+        builder.setPositiveButton("確認", new DialogInterface.OnClickListener()  {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                ActMainPage.this.finish();
+            }
+
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener()  {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 
     private void loadClassification () {
         ArrayList<String> listFuncs = new ArrayList<String>();
@@ -54,13 +90,22 @@ public class ActMainPage extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onResume() {
+        if(Resources.doRefreshScreen){
+            Resources.doRefreshScreen = false;
+            finish();
+            startActivity(getIntent());
+        }
+        super.onResume();
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
             switch (requestCode){
-                case FUNC_LOGIN:
-                    Resources.isLogin = true;
+                case LOGIN_REQUEST:
                     break;
-                case FUNC_NEW_ITEM:
+                case NEW_ITEM_REQUEST:
                     break;
                 default:
                     break;
@@ -73,8 +118,12 @@ public class ActMainPage extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.act_main, menu);
-        MenuItem item = menu.findItem(R.id.menuSearch);
-        SearchView searchView = (SearchView)item.getActionView();
+
+        menuSearch = menu.findItem(R.id.menuSearch);
+        menuClass = menu.findItem(R.id.menuType);
+
+        SearchView searchView = (SearchView)menuSearch.getActionView();
+        Button classView = (Button)menuClass.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -122,10 +171,30 @@ public class ActMainPage extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition() == 0){
-                    fab.setVisibility(View.VISIBLE);
-                }else{
-                    fab.setVisibility(View.INVISIBLE);
+
+                switch (tab.getPosition()){
+                    case 0:
+                        menuSearch.setVisible(true);
+                        menuClass.setVisible(true);
+                        fab.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        menuSearch.setVisible(false);
+                        menuClass.setVisible(false);
+                        fab.setVisibility(View.INVISIBLE);
+                        break;
+                    case 2:
+                        menuSearch.setVisible(false);
+                        menuClass.setVisible(false);
+                        fab.setVisibility(View.INVISIBLE);
+                        break;
+                    case 3:
+                        menuSearch.setVisible(false);
+                        menuClass.setVisible(false);
+                        fab.setVisibility(View.INVISIBLE);
+                        break;
+                    default:
+                        return;
                 }
             }
 
@@ -146,12 +215,11 @@ public class ActMainPage extends AppCompatActivity {
             public void onClick(View view) {
                 if(!Resources.isLogin) {
                     Intent intentLogin = new Intent(getApplicationContext(), ActLogin.class);
-                    startActivity(intentLogin);
-                    return;
+                    startActivityForResult(intentLogin,LOGIN_REQUEST);
                 }
                 if(Resources.isLogin){
                     Intent inte = new Intent(ActMainPage.this, ActNewItem.class);
-                    startActivityForResult(inte, FUNC_NEW_ITEM);
+                    startActivityForResult(inte, NEW_ITEM_REQUEST);
                 }
             }
         });
@@ -159,6 +227,7 @@ public class ActMainPage extends AppCompatActivity {
     ViewPager pager;
     TabLayout tabLayout;
     FloatingActionButton fab = null;
+    MenuItem menuSearch,menuClass;
 
     private class PagerAdapter extends FragmentPagerAdapter {
         public PagerAdapter(android.support.v4.app.FragmentManager fm) {
@@ -174,7 +243,10 @@ public class ActMainPage extends AppCompatActivity {
                 case 2:
                     return new NoticeFragment();
                 case 3:
-                    return new MemberFragment();
+                    if(Resources.isLogin)
+                        return new MemberFragment();
+                    else
+                        return new MemberNoLoginFragment();
                 default:
                     return null;
             }

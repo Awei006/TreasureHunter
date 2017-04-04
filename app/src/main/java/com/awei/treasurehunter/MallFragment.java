@@ -16,7 +16,7 @@ public class MallFragment extends Fragment {
 
 
     public MallFragment() {
-        // Required empty public constructor
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.awei.info.Question;
 import com.awei.info.User;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,6 +63,26 @@ public class DBController {
 
         return user;
     }
+    public static void uUserInfo(String userName,String userMail,String userNickname,Date userBirthday,int addressId){
+        try {
+            Connection conn = getConnection();
+            String strSql = "UPDATE userInfo SET userName = ?,userMail = ?,userNickname = ?,userBirthday = ?,addressId = ?" +
+                    " WHERE userId = ?";
+            PreparedStatement state = conn.prepareStatement(strSql);
+            state.setString(1, userName);
+            state.setString(2, userMail);
+            state.setString(3, userNickname);
+            state.setDate(4, userBirthday);
+            state.setInt(5, addressId);
+            state.setInt(6, Resources.user.userId);
+            state.executeUpdate();
+            state.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static User queryUser(int userId){
         User user = null;
 
@@ -88,6 +109,31 @@ public class DBController {
 
         return user;
     }
+    public static ArrayList<Item> rMyItem(int userId){
+        ArrayList<Item> listItem = new ArrayList<>();
+
+        try {
+            Connection conn = getConnection();
+            String strSql = "SELECT * from item where userId = ?";
+            PreparedStatement state = conn.prepareStatement(strSql);
+            state.setInt(1, userId);
+            ResultSet rs = state.executeQuery();
+
+            while (rs.next()) {
+                Item item = new Item(rs.getInt(1), rs.getInt(2), rs.getString(3),
+                        rs.getString(4), rs.getString(6), rs.getInt(5));
+
+                listItem.add(item);
+            }
+            rs.close();
+            state.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listItem;
+    }
+
     public static ArrayList<Item> queryAllItem(){
         ArrayList<Item> listItem = new ArrayList<>();
 
@@ -122,11 +168,11 @@ public class DBController {
             String strSql = "SELECT * from item where itemId = ?";
             PreparedStatement state = conn.prepareStatement(strSql);
             state.setInt(1, itemId);
-            ResultSet rs = state.executeQuery(strSql);
+            ResultSet rs = state.executeQuery();
 
             while (rs.next()) {
                 item = new Item(rs.getInt(1), rs.getInt(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getInt(6));
+                        rs.getString(4), rs.getString(6), rs.getInt(5));
             }
 
             rs.close();

@@ -19,24 +19,15 @@ public class ActLogin extends AppCompatActivity {
             String account = edAccount.getText().toString();
             String password = edPassword.getText().toString();
 
-            User user = DBController.queryLogin(edAccount.getText().toString(),edPassword.getText().toString());
+            User user = DBController.queryLogin(account,password);
             if(user !=null){
                 Resources.user = user;
                 Resources.isLogin = true;
+                Resources.doRefreshScreen = true;
                 finish();
             }else{
                 Toast.makeText(ActLogin.this, "查無此人", Toast.LENGTH_LONG).show();
             }
-            /*if (Resources.ACCOUNT.equals(account)) {
-                if (Resources.PASSWORD.equals(password)) {
-                    finish();
-
-                } else {
-                    Toast.makeText(ActLogin.this, "帳號錯誤", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                Toast.makeText(ActLogin.this, "帳號錯誤", Toast.LENGTH_LONG).show();
-            }*/
         }
     };
 
