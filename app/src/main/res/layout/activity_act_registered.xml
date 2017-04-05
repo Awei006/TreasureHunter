@@ -306,13 +306,26 @@
                         android:layout_height="match_parent"
                         android:textSize="20dp" />
                 </LinearLayout>
-
-                <EditText
-                    android:id="@+id/edAddress"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:textSize="20dp" />
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/edCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:layout_weight="1"/>
+                    <EditText
+                        android:id="@+id/edAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:textSize="16dp"
+                        android:layout_weight="0.5"/>
+                </LinearLayout>
+
 
             </LinearLayout>
         </LinearLayout>

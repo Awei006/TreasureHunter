@@ -30,12 +30,18 @@ public class ActLogin extends AppCompatActivity {
             }
         }
     };
-
     View.OnClickListener btnRegistered_click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent inte = new Intent(ActLogin.this, ActRegistered.class);
             startActivity(inte);
+        }
+    };
+
+    View.OnClickListener btnlater_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finish();
         }
     };
 
@@ -52,13 +58,15 @@ public class ActLogin extends AppCompatActivity {
         edPassword = (EditText) findViewById(R.id.edPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegistered = (Button) findViewById(R.id.btnRegistered);
+        btnlater = (Button) findViewById(R.id.btnlater);
 
         btnLogin.setOnClickListener(btnLogin_click);
         btnRegistered.setOnClickListener(btnRegistered_click);
+        btnlater.setOnClickListener(btnlater_click);
     }
 
     private AutoCompleteTextView edAccount;
     private EditText edPassword;
     private Button btnLogin;
-    private Button btnRegistered;
+    private Button btnRegistered,btnlater;
 }

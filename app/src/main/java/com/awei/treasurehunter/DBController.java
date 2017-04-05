@@ -308,4 +308,58 @@ public class DBController {
             e.printStackTrace();
         }
     }
+    public static ArrayList<Integer> rTrackItem(){
+        ArrayList<Integer> listItemId = new ArrayList<>();
+
+        try {
+            Connection conn = getConnection();
+            if(conn!=null && !conn.isClosed()){
+                String strSql = "SELECT * from trackItem where userId = ?";
+                PreparedStatement state = conn.prepareStatement(strSql);
+                state.setInt(1, Resources.user.userId);
+                ResultSet rs = state.executeQuery();
+
+                while (rs.next()) {
+                    listItemId.add(rs.getInt(2));
+                }
+
+                rs.close();
+                state.close();
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listItemId;
+    }
+    public static void cTrackItem(){
+
+        try {
+            Connection conn = getConnection();
+            String strSql = "INSERT INTO trackItem (userId,itemId)" +
+                    "values(?,?)";
+            PreparedStatement state = conn.prepareStatement(strSql);
+            state.setInt(1, Resources.user.userId);
+            state.setInt(2, Resources.itemClick.itemId);
+            state.executeUpdate();
+            state.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void dTrackItem(){
+
+        try {
+            Connection conn = getConnection();
+            String strSql = "DELETE FROM trackItem WHERE itemId = ?";
+            PreparedStatement state = conn.prepareStatement(strSql);
+            state.setInt(1, Resources.itemClick.itemId);
+            state.executeUpdate();
+            state.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

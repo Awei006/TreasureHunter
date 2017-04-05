@@ -96,13 +96,17 @@ public class ActRegistered extends AppCompatActivity {
             if (!"請選擇".equals(spCity.getSelectedItem().toString()) && !"請選擇".equals(spTown.getSelectedItem().toString())) {
                 String city = spCity.getSelectedItem().toString();
                 String Town = spTown.getSelectedItem().toString();
-                edAddress.setText(city + Town);
+                edCity.setText(city + Town);
             }
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
+            if (!"請選擇".equals(spCity.getSelectedItem().toString()) && !"請選擇".equals(spTown.getSelectedItem().toString())) {
+                String city = spCity.getSelectedItem().toString();
+                String Town = spTown.getSelectedItem().toString();
+                edCity.setText(city + Town);
+            }
         }
     };
 
@@ -183,6 +187,7 @@ public class ActRegistered extends AppCompatActivity {
         edNickname = (EditText) findViewById(R.id.edNickname);
         edBirthday = (EditText) findViewById(R.id.edBirthday);
         edAddress = (EditText) findViewById(R.id.edAddress);
+        edCity = (EditText) findViewById(R.id.edCity);
 
         btnVerification = (Button) findViewById(R.id.btnVerification);
         btnCheckCode = (Button) findViewById(R.id.btnCheckCode);
@@ -213,7 +218,7 @@ public class ActRegistered extends AppCompatActivity {
     }
 
     EditText edVerification, edCheckCode, edAccount, edPassword, edCheckPassword,
-            edName, edPhone, edEmail, edNickname, edBirthday, edAddress;
+            edName, edPhone, edEmail, edNickname, edBirthday, edAddress,edCity;
     Button btnVerification, btnCheckCode, btnCheckAccount,btnDatePicker;
     Spinner spCity, spTown;
     LinearLayout layoutChcek, layoutInfo;
