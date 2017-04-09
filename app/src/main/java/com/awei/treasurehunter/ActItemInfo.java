@@ -1,9 +1,12 @@
 package com.awei.treasurehunter;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.style.QuoteSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 
 import com.awei.info.Question;
 import com.awei.info.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -28,22 +33,31 @@ public class ActItemInfo extends AppCompatActivity {
 
     private AlertDialog dialogQuestion;
     private Intent intent;
-    private ArrayList<Question> listQ;
+    private ArrayList<Question> listQ = new ArrayList<>();
     private String imgPath = "http://cr3fp4.azurewebsites.net/uploads/";
     private void getInfo() {
         intent = getIntent();
-        itemIcon.setImageBitmap(Resources.getBitmapFromURL(imgPath + Resources.itemClick.itemPicture + "A.jpg") );
+        itemIcon.setImageBitmap(Resources.getBitmapFromURL(imgPath + Resources.itemClick.itemId + "A.jpg") );
         userIcon.setImageResource(R.drawable.ic_c_free);
         userName.setText(intent.getExtras().getString("USER_NICKNAME"));
         userCity.setText("測試");
         description.setText(Resources.itemClick.itemDescription);
         ship.setText("測試用貨運");
 
-        listQ = new ArrayList<>();
-        listQ = DBController.rQuestion(Resources.itemClick.itemId);
+        RequestPackage p = new RequestPackage();
+        p.setUri(String.format("xxxx/question/rQuestion"));
+        p.setMethod("GET");
 
+        String myQuestion = HttpManager.getData(p);
+        Gson gson = new Gson();
+        listQ = gson.fromJson(myQuestion,new TypeToken<ArrayList<Question>>(){}.getType());
         for(final Question q : listQ){
-            User user = DBController.queryUser(q.getUserId());
+
+            p.setUri("xxxx/userInfo/rUserInfo/" + q.getUserId());
+            p.setMethod("GET");
+            String strUser = HttpManager.getData(p);
+            User user = gson.fromJson(strUser,new TypeToken<User>(){}.getType());
+
             LayoutInflater inflater = LayoutInflater.from(this);
             View row = inflater.inflate(R.layout.view_leave_msg, null);
 
@@ -54,14 +68,14 @@ public class ActItemInfo extends AppCompatActivity {
             txtName.setText(user.userNickname);
 
             TextView txtContent = (TextView)row.findViewById(R.id.txtContent);
-            txtContent.setText(q.getDescription());
+            txtContent.setText(q.getQuestionDescription());
 
             TextView txtDate = (TextView)row.findViewById(R.id.txtDate);
-            txtDate.setText(q.getTime().toString());
+            txtDate.setText(q.getQuestiontime().toString());
 
             TextView txtAnswer = (TextView)row.findViewById(R.id.txtAnswer);
-            if(q.getAnswer()!=null)
-                txtAnswer.setText(q.getAnswer());
+            if(q.getQuestionAnswer()!=null)
+                txtAnswer.setText(q.getQuestionAnswer());
             else
                 txtAnswer.setText("尚未回覆");
 
@@ -92,7 +106,17 @@ public class ActItemInfo extends AppCompatActivity {
                 String description = edContent.getText().toString();
                 Date date = new Date(System.currentTimeMillis());
                 Question q = new Question(0,itemId,userId,description,null,date);
-                DBController.cQuestion(q);
+
+                RequestPackage p = new RequestPackage();
+                p.setUri("xxxx/question/cQuestion");
+                p.setMethod("POST");
+                p.setSingleParam("itemId",itemId+"");
+                p.setSingleParam("userId",userId+"");
+                p.setSingleParam("questionDescription",description);
+                p.setSingleParam("questionAnswer",null);
+                p.setSingleParam("questiontime",date.toString());
+                HttpManager.getData(p);
+                //DBController.cQuestion(q);
                 dialogQuestion.dismiss();
             }
         });
@@ -119,7 +143,13 @@ public class ActItemInfo extends AppCompatActivity {
             public void onClick(View v) {
                 String description = edContent.getText().toString();
                 dialogQuestion.dismiss();
-                DBController.uQuestion(id,description);
+
+                RequestPackage p = new RequestPackage();
+                p.setUri("question/uQuestion/" + id);
+                p.setMethod("POST");
+                p.setSingleParam("questionAnswer",description);
+                HttpManager.getData(p);
+                //DBController.uQuestion(id,description);
             }
         });
 

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.awei.info.Item;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,14 @@ class AdapterItemGridView extends BaseAdapter {
 
     public AdapterItemGridView(Context c) {
         this.context = c;
-        listItem = DBController.queryAllItem();
+
+        RequestPackage p = new RequestPackage();
+        p.setUri("item/rItem");
+        p.setMethod("GET");
+        String strItem = HttpManager.getData(p);
+        Gson gson = new Gson();
+        listItem = gson.fromJson(strItem, new TypeToken<ArrayList<Item>>() { }.getType());
+        //listItem = DBController.queryAllItem();
     }
 
     @Override
@@ -47,7 +56,7 @@ class AdapterItemGridView extends BaseAdapter {
             row = inflater.inflate(R.layout.view_main, null);
             ImageView image = (ImageView) row.findViewById(R.id.item_img);
             image.setImageResource(R.drawable.ic_bar_treasure);
-            image.setImageBitmap(Resources.getBitmapFromURL(imgPath + listItem.get(position).itemPicture + "A.jpg"));
+            image.setImageBitmap(Resources.getBitmapFromURL(imgPath + listItem.get(position).itemId + "A.jpg"));
             TextView text = (TextView) row.findViewById(R.id.item_text);
             text.setText(listItem.get(position).itemName);
         }

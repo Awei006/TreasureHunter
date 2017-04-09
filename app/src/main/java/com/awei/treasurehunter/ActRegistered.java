@@ -138,7 +138,29 @@ public class ActRegistered extends AppCompatActivity {
                     try {
                         date = dateFormat.parse(edBirthday.getText().toString());
                         dateForSql = new java.sql.Date(date.getTime());
-                        DBController.registered(edAccount.getText().toString(),
+
+                        RequestPackage p = new RequestPackage();
+                        p.setUri("xxxx/userInfo/cUser");
+                        p.setMethod("POST");
+                        p.setSingleParam("userAccount",edAccount.getText().toString());
+                        p.setSingleParam("userPassword",edPassword.getText().toString());
+                        p.setSingleParam("userName",edName.getText().toString());
+                        p.setSingleParam("userPhone",edPhone.getText().toString());
+                        p.setSingleParam("userMail",edEmail.getText().toString());
+                        p.setSingleParam("userNickname",edNickname.getText().toString());
+                        //p.setSingleParam("userPhoto",description);
+                        p.setSingleParam("userBirthday",dateForSql.toString());
+                        p.setSingleParam("userSex",sex);
+                        p.setSingleParam("userVip","0");
+                        p.setSingleParam("userScore","0");
+                        p.setSingleParam("userMoney","0");
+                        p.setSingleParam("cityId",spCity.getSelectedItemPosition()+1+"");
+                        p.setSingleParam("districId",spTown.getSelectedItemPosition()+1+"");
+                        p.setSingleParam("addressDetial",edAddress.getText().toString());
+
+                        HttpManager.getData(p);
+
+                        /*DBController.registered(edAccount.getText().toString(),
                                 edPassword.getText().toString(),
                                 edName.getText().toString(),
                                 edPhone.getText().toString(),
@@ -146,7 +168,7 @@ public class ActRegistered extends AppCompatActivity {
                                 edNickname.getText().toString(),
                                 2,
                                 dateForSql,
-                                sex);
+                                sex);*/
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

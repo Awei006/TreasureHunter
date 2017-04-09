@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.awei.info.Item;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
@@ -33,7 +35,14 @@ public class MemberFragment extends Fragment {
 
             if(item.getItemId() == R.id.menu_item){
                 if(Resources.isLogin){
-                    final ArrayList<Item> items = DBController.rMyItem(Resources.user.userId);
+
+                    RequestPackage p = new RequestPackage();
+                    p.setUri("item/getMyItems/" + Resources.user.userId);
+                    p.setMethod("GET");
+                    String strMyItems = HttpManager.getData(p);
+                    Gson gson = new Gson();
+                    final ArrayList<Item> items = gson.fromJson(strMyItems, new TypeToken<ArrayList<Item>>() { }.getType());
+                    //final ArrayList<Item> items = DBController.rMyItem(Resources.user.userId);
                     gridview_mb.setAdapter(new AdapterMyItem(getActivity(),items));
                     gridview_mb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -50,7 +59,6 @@ public class MemberFragment extends Fragment {
             return false;
         }
     };
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,14 +67,12 @@ public class MemberFragment extends Fragment {
         loaduserInfo();
         return rootView;
     }
-
     private void loaduserInfo() {
         if(Resources.user!=null){
             txtMBName.setText(Resources.user.userNickname);
             txtMBScore.setText(Resources.user.userScore + "");
         }
     }
-
     private void initialComponent() {
         Nav = (BottomNavigationView)rootView.findViewById(R.id.bottom_navigation);
         Nav.setOnNavigationItemSelectedListener(Nav_click);
@@ -153,7 +159,7 @@ public class MemberFragment extends Fragment {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(R.layout.view_main, null);
                 ImageView image = (ImageView) row.findViewById(R.id.item_img);
-                image.setImageBitmap(Resources.getBitmapFromURL(Resources.imgPath + listItem.get(position).itemPicture + "A.jpg"));
+                image.setImageBitmap(Resources.getBitmapFromURL(Resources.imgPath + listItem.get(position).itemId + "A.jpg"));
                 TextView text = (TextView) row.findViewById(R.id.item_text);
                 text.setText(listItem.get(position).itemName);
             }

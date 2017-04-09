@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class DBController {
 
-    public static Connection getConnection() {
+    /*public static Connection getConnection() {
         Connection conn = null;
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -361,5 +361,5 @@ public class DBController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

@@ -1,9 +1,12 @@
 package com.awei.treasurehunter;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +27,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ActEditInfo extends AppCompatActivity {
+
+    java.sql.Date dateForSql;
 
     View.OnClickListener btnEditPwd_click = new View.OnClickListener() {
         @Override
@@ -114,19 +119,18 @@ public class ActEditInfo extends AppCompatActivity {
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                     Date date;
-                    java.sql.Date dateForSql = null;
                     try {
                         date = dateFormat.parse(edBirthday.getText().toString());
                         dateForSql = new java.sql.Date(date.getTime());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    DBController.uUserInfo(edName.getText().toString(),
+                    editUserInfo();
+                    /*DBController.uUserInfo(edName.getText().toString(),
                                             edEmail.getText().toString(),
                                             edNickname.getText().toString(),
                                             dateForSql,
-                                            2);
-                    finish();
+                                            2);*/
                 }else {
                     Toast.makeText(this, "輸入資料有誤", Toast.LENGTH_LONG).show();
                 }
@@ -134,6 +138,22 @@ public class ActEditInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void editUserInfo() {
+        RequestPackage p = new RequestPackage();
+        p.setUri(String.format("xxx/userInfo/uUserInfo/{0}",Resources.user.userId));
+        p.setMethod("POST");
+        p.setSingleParam("userName",edName.getText().toString());
+        p.setSingleParam("userMail",edEmail.getText().toString());
+        p.setSingleParam("userNickname",edNickname.getText().toString());
+        p.setSingleParam("userBirthday",dateForSql.toString());
+        //p.setSingleParam("cityId",dateForSql.toString());
+        //p.setSingleParam("districId",dateForSql.toString());
+        p.setSingleParam("addressDetail",edAddress.getText().toString());
+
+        new MyTask().execute(p);
+    }
+
     private void loadMyInfo(){
         edName.setText(Resources.user.userName);
         edEmail.setText(Resources.user.userMail);
@@ -188,4 +208,32 @@ public class ActEditInfo extends AppCompatActivity {
     Button btnDatePicker,btnEditPwd;
     Spinner spCity, spTown;
     ImageButton imgBtnPhoto;
+
+    public class MyTask extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(ActEditInfo.this);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("修改中!!請稍後");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+
+            finish();
+        }
+    }
 }

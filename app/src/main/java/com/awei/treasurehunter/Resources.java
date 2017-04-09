@@ -11,6 +11,7 @@ import com.awei.info.User;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by iii on 2017/3/22.
@@ -23,6 +24,7 @@ public class Resources {
     public static Item itemClick = null;
     public static boolean doRefreshScreen = false;
     public static boolean closeUpload = false;
+    public static ArrayList<Item> MyAllItem = new ArrayList<Item>();
 
     public static final String FRAG[] = {"首頁","商城","通知","會員"};
 

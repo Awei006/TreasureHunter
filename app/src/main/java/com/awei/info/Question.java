@@ -7,17 +7,17 @@ public class Question {
     private int questionId;
     private int itemId;
     private int userId;
-    private String description;
-    private String answer;
-    private Date time;
+    private String questionDescription;
+    private String questionAnswer;
+    private Date questiontime;
 
-    public Question(int questionId, int itemId, int userId, String description,String answer, Date time) {
+    public Question(int questionId, int itemId, int userId, String questionDescription, String questionAnswer, Date questiontime) {
         this.questionId = questionId;
         this.itemId = itemId;
         this.userId = userId;
-        this.description = description;
-        this.time = time;
-        this.answer = answer;
+        this.questionDescription = questionDescription;
+        this.questionAnswer = questionAnswer;
+        this.questiontime = questiontime;
     }
 
     public int getQuestionId() {
@@ -44,27 +44,27 @@ public class Question {
         this.userId = userId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getQuestionDescription() {
+        return questionDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setQuestionDescription(String questionDescription) {
+        this.questionDescription = questionDescription;
     }
 
-    public Date getTime() {
-        return time;
+    public String getQuestionAnswer() {
+        return questionAnswer;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setQuestionAnswer(String questionAnswer) {
+        this.questionAnswer = questionAnswer;
     }
 
-    public String getAnswer() {
-        return answer;
+    public Date getQuestiontime() {
+        return questiontime;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setQuestiontime(Date questiontime) {
+        this.questiontime = questiontime;
     }
 }

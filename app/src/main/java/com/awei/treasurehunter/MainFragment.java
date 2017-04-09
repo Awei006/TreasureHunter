@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.awei.info.Item;
 import com.awei.info.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,10 +33,17 @@ public class MainFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Resources.itemClick = (Item) itemGridView.getItem(position);
-            User user = DBController.queryUser(Resources.itemClick.userId);
+
+            RequestPackage p = new RequestPackage();
+            p.setUri("userInfo/rUserInfo" + Resources.itemClick.userId);
+            p.setMethod("GET");
+            String strUser = HttpManager.getData(p);
+            Gson gson = new Gson();
+            User user = gson.fromJson(strUser, new TypeToken<User>() { }.getType());
+            //User user = DBController.queryUser(Resources.itemClick.userId);
             Intent inte = new Intent(getActivity(), ActItemInfo.class);
             Bundle bundle = new Bundle();
-            bundle.putInt(Dictionary.USER_CITY, user.addressId);
+            bundle.putInt(Dictionary.USER_CITY, user.cityId);
             bundle.putString(Dictionary.USER_NICKNAME, user.userNickname);
             bundle.putString(Dictionary.USER_PHOTO, user.userPhoto);
             bundle.putString(Dictionary.USER_SHIP, "面交,郵寄,黑貓");

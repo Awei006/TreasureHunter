@@ -35,16 +35,27 @@ public class ActNewItem extends AppCompatActivity {
     private RequestPackage rp;
 
     private void upLoadItem() {
-        _imageFileName = String.valueOf(System.currentTimeMillis());
 
-        DBController.newItem(Resources.user.userId, edTitle.getText().toString(),
+
+        RequestPackage p = new RequestPackage();
+        p.setUri("item/cItem");
+        p.setMethod("POST");
+        p.setSingleParam("userId",Resources.user.userId + "");
+        p.setSingleParam("itemName",edTitle.getText().toString());
+        p.setSingleParam("itemDescription",edDescription.getText().toString());
+        p.setSingleParam("itemClass",(spClassification.getSelectedItemPosition()+1) +"");
+        HttpManager.getData(p);
+
+        /*DBController.newItem(Resources.user.userId, edTitle.getText().toString(),
                 edDescription.getText().toString(),_imageFileName,
-                spClassification.getSelectedItemPosition()+1);
+                spClassification.getSelectedItemPosition()+1);*/
 
+
+        _imageFileName = String.valueOf(System.currentTimeMillis());
         upLoadImg(itemImg3,_imageFileName + "C");
         upLoadImg(itemImg2,_imageFileName + "B");
         upLoadImg(itemImg1,_imageFileName + "A");
-        //finish();
+
         Resources.doRefreshScreen = true;
     }
 

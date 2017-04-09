@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.awei.info.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class ActLogin extends AppCompatActivity {
 
@@ -19,7 +21,15 @@ public class ActLogin extends AppCompatActivity {
             String account = edAccount.getText().toString();
             String password = edPassword.getText().toString();
 
-            User user = DBController.queryLogin(account,password);
+            RequestPackage p = new RequestPackage();
+            p.setUri("userInfo/login/" + account + "/" + password);
+            p.setMethod("GET");
+            String strUser = HttpManager.getData(p);
+
+            Gson gson = new Gson();
+            User user = gson.fromJson(strUser,new TypeToken<User>(){}.getType());
+
+            //User user = DBController.queryLogin(account,password);
             if(user !=null){
                 Resources.user = user;
                 Resources.isLogin = true;
