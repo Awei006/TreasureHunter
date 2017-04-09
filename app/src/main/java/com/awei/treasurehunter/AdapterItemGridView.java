@@ -25,7 +25,7 @@ class AdapterItemGridView extends BaseAdapter {
         this.context = c;
 
         RequestPackage p = new RequestPackage();
-        p.setUri("item/rItem");
+        p.setUri("xxxx/item/rItem");
         p.setMethod("GET");
         String strItem = HttpManager.getData(p);
         Gson gson = new Gson();
@@ -35,16 +35,21 @@ class AdapterItemGridView extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if(listItem == null)
+            return 0;
         return listItem.size();
     }
 
     @Override
     public Object getItem(int position) {
+        if(listItem == null)
+            return null;
         return listItem.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
         return listItem.get(position).itemId;
     }
 
