@@ -1,8 +1,10 @@
 package com.awei.treasurehunter;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.awei.info.Item;
+import com.awei.info.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -37,17 +40,7 @@ public class MemberFragment extends Fragment {
                     RequestPackage p = new RequestPackage();
                     p.setUri("http://webapicr3.azurewebsites.net/item/getMyItems/" + Resources.user.userId);
                     p.setMethod("GET");
-                    String strMyItems = HttpManager.getData(p);
-                    Gson gson = new Gson();
-                    final ArrayList<Item> items = gson.fromJson(strMyItems, new TypeToken<ArrayList<Item>>() { }.getType());
-                    //final ArrayList<Item> items = DBController.rMyItem(Resources.user.userId);
-                    gridview_mb.setAdapter(new AdapterMyItem(getActivity(),items));
-                    gridview_mb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(getActivity(),parent.getSelectedItemId() + "",Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    new LoadMemberTask().execute(p);
                 }
             }else if(item.getItemId() == R.id.menu_mall){
                 Toast.makeText(getActivity(),"商城",Toast.LENGTH_LONG).show();
@@ -88,7 +81,6 @@ public class MemberFragment extends Fragment {
         btnRecord.setOnClickListener(btnRecord_click);
         btnEvaluation.setOnClickListener(btnEvaluation_click);
         btnTrack.setOnClickListener(btnTrack_click);
-
     }
     View.OnClickListener btnEditInfo_click = new View.OnClickListener() {
         @Override
@@ -162,6 +154,40 @@ public class MemberFragment extends Fragment {
                 text.setText(listItem.get(position).itemName);
             }
             return row;
+        }
+    }
+    public class LoadMemberTask extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(getActivity());
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("載入會員資料.....");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+
+            final ArrayList<Item> items = new Gson().fromJson(result, new TypeToken<ArrayList<Item>>() { }.getType());
+            gridview_mb.setAdapter(new AdapterMyItem(getActivity(),items));
+            gridview_mb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getActivity(),parent.getSelectedItemId() + "",Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 }

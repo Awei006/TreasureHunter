@@ -25,7 +25,6 @@ class AdapterItemGridView extends BaseAdapter {
 
     public AdapterItemGridView(Context c) {
         this.context = c;
-
         RequestPackage p = new RequestPackage();
         p.setUri("http://webapicr3.azurewebsites.net/item/rItem");
         p.setMethod("GET");
@@ -33,7 +32,6 @@ class AdapterItemGridView extends BaseAdapter {
     }
 
     private void getAllItem(String result){
-        Log.d("TAG",result);
         listItem = (List<Item>) new Gson().fromJson(result, new TypeToken<List<Item>>(){}.getType());
     }
 
@@ -77,7 +75,7 @@ class AdapterItemGridView extends BaseAdapter {
         private ProgressDialog pd = new ProgressDialog(context);
         protected void onPreExecute() {
             super.onPreExecute();
-            pd.setMessage("載入中!!請稍後");
+            pd.setMessage("載入物品中......");
             pd.setCancelable(false);
             pd.show();
         }
@@ -94,7 +92,6 @@ class AdapterItemGridView extends BaseAdapter {
             super.onPostExecute(result);
             pd.hide();
             pd.dismiss();
-
             getAllItem(result);
         }
     }

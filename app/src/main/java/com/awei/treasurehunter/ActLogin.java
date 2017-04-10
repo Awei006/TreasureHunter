@@ -1,6 +1,8 @@
 package com.awei.treasurehunter;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,9 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.awei.info.Question;
 import com.awei.info.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
 
 public class ActLogin extends AppCompatActivity {
 
@@ -24,20 +29,7 @@ public class ActLogin extends AppCompatActivity {
             RequestPackage p = new RequestPackage();
             p.setUri("http://webapicr3.azurewebsites.net/userInfo/login/" + account + "/" + password);
             p.setMethod("GET");
-            String strUser = HttpManager.getData(p);
-
-            Gson gson = new Gson();
-            User user = gson.fromJson(strUser,new TypeToken<User>(){}.getType());
-
-            //User user = DBController.queryLogin(account,password);
-            if(user !=null){
-                Resources.user = user;
-                Resources.isLogin = true;
-                Resources.doRefreshScreen = true;
-                finish();
-            }else{
-                Toast.makeText(ActLogin.this, "查無此人", Toast.LENGTH_LONG).show();
-            }
+            new LoginTask().execute(p);
         }
     };
     View.OnClickListener btnRegistered_click = new View.OnClickListener() {
@@ -79,4 +71,39 @@ public class ActLogin extends AppCompatActivity {
     private EditText edPassword;
     private Button btnLogin;
     private Button btnRegistered,btnlater;
+
+    public class LoginTask extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(ActLogin.this);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("登入中!!請稍後!!");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+            User user = new Gson().fromJson(result,new TypeToken<User>(){}.getType());
+            if(user !=null){
+                Resources.user = user;
+                Resources.isLogin = true;
+                Resources.doRefreshScreen = true;
+                finish();
+            }else{
+                Toast.makeText(ActLogin.this, "查無此人", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

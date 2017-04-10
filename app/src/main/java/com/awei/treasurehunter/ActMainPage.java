@@ -42,11 +42,8 @@ public class ActMainPage extends AppCompatActivity {
     private void dialogClose(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ActMainPage.this);
-
         builder.setMessage("確定要離開？");
-
         builder.setTitle("離開");
-
         builder.setPositiveButton("確認", new DialogInterface.OnClickListener()  {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -118,15 +115,11 @@ public class ActMainPage extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.act_main, menu);
-
         menuSearch = menu.findItem(R.id.menuSearch);
         menuClass = menu.findItem(R.id.menuType);
 
         SearchView searchView = (SearchView)menuSearch.getActionView();
-        Button classView = (Button)menuClass.getActionView();
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Toast.makeText(ActMainPage.this,query,Toast.LENGTH_LONG).show();
@@ -134,7 +127,6 @@ public class ActMainPage extends AppCompatActivity {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 return false;
             }
         });
@@ -146,10 +138,9 @@ public class ActMainPage extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.menuType) {
-            loadClassification ();
+            loadClassification();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -157,12 +148,10 @@ public class ActMainPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-
         InitialComponent();
     }
 
     private void InitialComponent() {
-
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(new ActMainPage.PagerAdapter(getSupportFragmentManager()));
 
@@ -208,7 +197,6 @@ public class ActMainPage extends AppCompatActivity {
 
             }
         });
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

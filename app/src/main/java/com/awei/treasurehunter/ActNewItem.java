@@ -18,6 +18,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.awei.info.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
@@ -43,19 +47,7 @@ public class ActNewItem extends AppCompatActivity {
         p.setSingleParam("itemName",edTitle.getText().toString());
         p.setSingleParam("itemDescription",edDescription.getText().toString());
         p.setSingleParam("itemClass",(spClassification.getSelectedItemPosition()+1) +"");
-        HttpManager.getData(p);
-
-        /*DBController.newItem(Resources.user.userId, edTitle.getText().toString(),
-                edDescription.getText().toString(),_imageFileName,
-                spClassification.getSelectedItemPosition()+1);*/
-
-
-        _imageFileName = String.valueOf(System.currentTimeMillis());
-        upLoadImg(itemImg3,_imageFileName + "C");
-        upLoadImg(itemImg2,_imageFileName + "B");
-        upLoadImg(itemImg1,_imageFileName + "A");
-
-        Resources.doRefreshScreen = true;
+        new NewItemTask().execute(p);
     }
 
     private void upLoadImg(ImageButton image,String fileName){
@@ -198,7 +190,6 @@ public class ActNewItem extends AppCompatActivity {
 
         @Override
         protected String doInBackground(RequestPackage... params) {
-
             String content = MyHttpURLConnection.getData(params[0]);
             return content;
 
@@ -210,6 +201,27 @@ public class ActNewItem extends AppCompatActivity {
             pd.dismiss();
             if(Resources.closeUpload)
                 finish();
+        }
+    }
+    public class NewItemTask extends AsyncTask<RequestPackage, Void, String> {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            _imageFileName = String.valueOf(System.currentTimeMillis());
+            upLoadImg(itemImg3,_imageFileName + "C");
+            upLoadImg(itemImg2,_imageFileName + "B");
+            upLoadImg(itemImg1,_imageFileName + "A");
+            Resources.doRefreshScreen = true;
         }
     }
 }

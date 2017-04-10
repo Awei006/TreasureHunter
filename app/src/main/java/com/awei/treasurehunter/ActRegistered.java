@@ -1,6 +1,8 @@
 package com.awei.treasurehunter;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,6 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.awei.info.User;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -133,8 +139,8 @@ public class ActRegistered extends AppCompatActivity {
 
                     String sex = radioBoy.isChecked() ? "男" : "女";
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                    Date date = null;
-                    java.sql.Date dateForSql = null;
+                    Date date;
+                    java.sql.Date dateForSql;
                     try {
                         date = dateFormat.parse(edBirthday.getText().toString());
                         dateForSql = new java.sql.Date(date.getTime());
@@ -148,7 +154,6 @@ public class ActRegistered extends AppCompatActivity {
                         p.setSingleParam("userPhone",edPhone.getText().toString());
                         p.setSingleParam("userMail",edEmail.getText().toString());
                         p.setSingleParam("userNickname",edNickname.getText().toString());
-                        //p.setSingleParam("userPhoto",description);
                         p.setSingleParam("userBirthday",dateForSql.toString());
                         p.setSingleParam("userSex",sex);
                         p.setSingleParam("userVip","0");
@@ -158,7 +163,7 @@ public class ActRegistered extends AppCompatActivity {
                         p.setSingleParam("districId",spTown.getSelectedItemPosition()+1+"");
                         p.setSingleParam("addressDetial",edAddress.getText().toString());
 
-                        HttpManager.getData(p);
+                        new RegisteredTask().execute(p);
 
                         /*DBController.registered(edAccount.getText().toString(),
                                 edPassword.getText().toString(),
@@ -172,8 +177,6 @@ public class ActRegistered extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    finish();
-                    Toast.makeText(this, "註冊成功", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(this, "輸入資料有誤", Toast.LENGTH_LONG).show();
                 }
@@ -245,4 +248,31 @@ public class ActRegistered extends AppCompatActivity {
     Spinner spCity, spTown;
     LinearLayout layoutChcek, layoutInfo;
     RadioButton radioBoy,radioGirl;
+
+    public class RegisteredTask extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(ActRegistered.this);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("註冊中!!完成後關閉");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+            finish();
+        }
+    }
 }

@@ -1,7 +1,9 @@
 package com.awei.treasurehunter;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,18 +38,8 @@ public class MainFragment extends Fragment {
             RequestPackage p = new RequestPackage();
             p.setUri("http://webapicr3.azurewebsites.net/userInfo/rUserInfo" + Resources.itemClick.userId);
             p.setMethod("GET");
-            String strUser = HttpManager.getData(p);
-            Gson gson = new Gson();
-            User user = gson.fromJson(strUser, new TypeToken<User>() { }.getType());
-            //User user = DBController.queryUser(Resources.itemClick.userId);
-            Intent inte = new Intent(getActivity(), ActItemInfo.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt(Dictionary.USER_CITY, user.cityId);
-            bundle.putString(Dictionary.USER_NICKNAME, user.userNickname);
-            bundle.putString(Dictionary.USER_PHOTO, user.userPhoto);
-            bundle.putString(Dictionary.USER_SHIP, "面交,郵寄,黑貓");
-            inte.putExtras(bundle);
-            startActivity(inte);
+
+            new LoadClickTask().execute(p);
         }
     };
     @Override
@@ -77,4 +69,39 @@ public class MainFragment extends Fragment {
 
     private GridView gridItem;
     private View rootView;
+
+    public class LoadClickTask extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(getContext());
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("載入物品資訊.....");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+            User user = new Gson().fromJson(result, new TypeToken<User>() { }.getType());
+            Intent inte = new Intent(getActivity(), ActItemInfo.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt(Dictionary.USER_CITY, user.cityId);
+            bundle.putString(Dictionary.USER_NICKNAME, user.userNickname);
+            bundle.putString(Dictionary.USER_PHOTO, user.userPhoto);
+            bundle.putString(Dictionary.USER_SHIP, "面交,郵寄,黑貓");
+            inte.putExtras(bundle);
+            startActivity(inte);
+        }
+    }
 }

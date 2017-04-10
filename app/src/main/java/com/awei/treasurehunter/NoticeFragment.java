@@ -45,7 +45,6 @@ public class NoticeFragment extends Fragment {
     }
 
     private void initialComponent() {
-
         gridView = (GridView) rootView.findViewById(R.id.grid);
         gridView.setAdapter(new AdapterNotice(getActivity(), listIcons, listContent, listTime));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,8 +54,6 @@ public class NoticeFragment extends Fragment {
             }
         });
     }
-
     private GridView gridView;
     private View rootView;
-    private FloatingActionButton fab;
 }
