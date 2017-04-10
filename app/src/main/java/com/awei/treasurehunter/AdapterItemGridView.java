@@ -1,8 +1,9 @@
 package com.awei.treasurehunter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,23 +16,27 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class AdapterItemGridView extends BaseAdapter {
     Context context;
-    ArrayList<Item> listItem = new ArrayList<>();
+    List<Item> listItem = new ArrayList<>();
     private String imgPath = "http://cr3fp4.azurewebsites.net/uploads/";
 
     public AdapterItemGridView(Context c) {
         this.context = c;
 
         RequestPackage p = new RequestPackage();
-        p.setUri("xxxx/item/rItem");
+        p.setUri("http://webapicr3.azurewebsites.net/item/rItem");
         p.setMethod("GET");
-        String strItem = HttpManager.getData(p);
-        Gson gson = new Gson();
-        listItem = gson.fromJson(strItem, new TypeToken<ArrayList<Item>>() { }.getType());
-        //listItem = DBController.queryAllItem();
+        new MyTask().execute(p);
     }
+
+    private void getAllItem(String result){
+        Log.d("TAG",result);
+        listItem = (List<Item>) new Gson().fromJson(result, new TypeToken<List<Item>>(){}.getType());
+    }
+
 
     @Override
     public int getCount() {
@@ -67,4 +72,31 @@ class AdapterItemGridView extends BaseAdapter {
         }
         return row;
     }
+    public class MyTask extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(context);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("載入中!!請稍後");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+            return content;
+
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+
+            getAllItem(result);
+        }
+    }
+
 }

@@ -19,4 +19,12 @@ public class Item {
         this.itemDescription = itemDescription;
         this.classId = classId;
     }
+
+    /*public Item(JsonObject experience){
+        this.itemId = experience.get("itemId").getAsInt();
+        this.userId = experience.get("userId").getAsInt();
+        this.itemName = experience.get("itemName").getAsString();
+        this.itemDescription = experience.get("itemDescription").getAsString();
+        this.classId = experience.get("classId").getAsInt();
+    }*/
 }

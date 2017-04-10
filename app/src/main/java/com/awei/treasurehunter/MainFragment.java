@@ -3,7 +3,6 @@ package com.awei.treasurehunter;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +34,7 @@ public class MainFragment extends Fragment {
             Resources.itemClick = (Item) itemGridView.getItem(position);
 
             RequestPackage p = new RequestPackage();
-            p.setUri("userInfo/rUserInfo" + Resources.itemClick.userId);
+            p.setUri("http://webapicr3.azurewebsites.net/userInfo/rUserInfo" + Resources.itemClick.userId);
             p.setMethod("GET");
             String strUser = HttpManager.getData(p);
             Gson gson = new Gson();

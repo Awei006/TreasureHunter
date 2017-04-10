@@ -1,12 +1,9 @@
 package com.awei.treasurehunter;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.style.QuoteSpan;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.awei.info.Question;
 import com.awei.info.User;
@@ -25,8 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ActItemInfo extends AppCompatActivity {
@@ -45,7 +39,7 @@ public class ActItemInfo extends AppCompatActivity {
         ship.setText("測試用貨運");
 
         RequestPackage p = new RequestPackage();
-        p.setUri(String.format("xxxx/question/rQuestion"));
+        p.setUri(String.format("http://webapicr3.azurewebsites.net/question/rQuestion"));
         p.setMethod("GET");
 
         String myQuestion = HttpManager.getData(p);
@@ -53,7 +47,7 @@ public class ActItemInfo extends AppCompatActivity {
         listQ = gson.fromJson(myQuestion,new TypeToken<ArrayList<Question>>(){}.getType());
         for(final Question q : listQ){
 
-            p.setUri("xxxx/userInfo/rUserInfo/" + q.getUserId());
+            p.setUri("http://webapicr3.azurewebsites.net/userInfo/rUserInfo/" + q.getUserId());
             p.setMethod("GET");
             String strUser = HttpManager.getData(p);
             User user = gson.fromJson(strUser,new TypeToken<User>(){}.getType());

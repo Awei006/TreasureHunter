@@ -20,9 +20,7 @@ public class MyHttpURLConnection {
             con.setReadTimeout(10000);
             con.setConnectTimeout(15000);
             con.setRequestMethod(requestPackage.getMethod());
-			/*
-			 * passing params via post done here
-			 */
+
             con.setDoOutput(true);
             OutputStreamWriter writer = new OutputStreamWriter(
                     con.getOutputStream());

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +35,7 @@ public class MemberFragment extends Fragment {
                 if(Resources.isLogin){
 
                     RequestPackage p = new RequestPackage();
-                    p.setUri("item/getMyItems/" + Resources.user.userId);
+                    p.setUri("http://webapicr3.azurewebsites.net/item/getMyItems/" + Resources.user.userId);
                     p.setMethod("GET");
                     String strMyItems = HttpManager.getData(p);
                     Gson gson = new Gson();

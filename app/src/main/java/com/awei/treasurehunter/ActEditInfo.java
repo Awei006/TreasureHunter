@@ -3,10 +3,8 @@ package com.awei.treasurehunter;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +14,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -141,7 +137,7 @@ public class ActEditInfo extends AppCompatActivity {
 
     private void editUserInfo() {
         RequestPackage p = new RequestPackage();
-        p.setUri(String.format("xxx/userInfo/uUserInfo/{0}",Resources.user.userId));
+        p.setUri(String.format("http://webapicr3.azurewebsites.net/userInfo/uUser/{0}",Resources.user.userId));
         p.setMethod("POST");
         p.setSingleParam("userName",edName.getText().toString());
         p.setSingleParam("userMail",edEmail.getText().toString());

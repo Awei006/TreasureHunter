@@ -1,7 +1,5 @@
 package com.awei.treasurehunter;
 
-import android.util.Log;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -24,7 +22,6 @@ class HttpManager {
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod(p.getMethod());
 
-
             if(p.getMethod().equals("POST")){
 
                 con.setRequestProperty("content-type","application/json");
@@ -38,7 +35,8 @@ class HttpManager {
 
             StringBuilder sb = new StringBuilder();
 
-            reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            con.connect();
+            reader = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 
             String line;
             while ((line = reader.readLine())!=null){

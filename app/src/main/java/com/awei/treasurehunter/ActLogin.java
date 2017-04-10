@@ -22,7 +22,7 @@ public class ActLogin extends AppCompatActivity {
             String password = edPassword.getText().toString();
 
             RequestPackage p = new RequestPackage();
-            p.setUri("userInfo/login/" + account + "/" + password);
+            p.setUri("http://webapicr3.azurewebsites.net/userInfo/login/" + account + "/" + password);
             p.setMethod("GET");
             String strUser = HttpManager.getData(p);
 

@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -38,7 +37,7 @@ public class ActNewItem extends AppCompatActivity {
 
 
         RequestPackage p = new RequestPackage();
-        p.setUri("item/cItem");
+        p.setUri("http://webapicr3.azurewebsites.net/item/cItem");
         p.setMethod("POST");
         p.setSingleParam("userId",Resources.user.userId + "");
         p.setSingleParam("itemName",edTitle.getText().toString());

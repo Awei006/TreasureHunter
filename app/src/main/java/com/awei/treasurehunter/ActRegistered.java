@@ -140,7 +140,7 @@ public class ActRegistered extends AppCompatActivity {
                         dateForSql = new java.sql.Date(date.getTime());
 
                         RequestPackage p = new RequestPackage();
-                        p.setUri("xxxx/userInfo/cUser");
+                        p.setUri("http://webapicr3.azurewebsites.net/userInfo/cUser");
                         p.setMethod("POST");
                         p.setSingleParam("userAccount",edAccount.getText().toString());
                         p.setSingleParam("userPassword",edPassword.getText().toString());
