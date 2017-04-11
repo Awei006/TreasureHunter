@@ -35,8 +35,8 @@ class HttpManager {
 
             StringBuilder sb = new StringBuilder();
 
-            con.connect();
-            reader = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+            //con.connect();
+            reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             String line;
             while ((line = reader.readLine())!=null){

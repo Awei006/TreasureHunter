@@ -11,12 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.awei.info.Question;
 import com.awei.info.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ActLogin extends AppCompatActivity {
 
@@ -95,7 +94,8 @@ public class ActLogin extends AppCompatActivity {
             super.onPostExecute(result);
             pd.hide();
             pd.dismiss();
-            User user = new Gson().fromJson(result,new TypeToken<User>(){}.getType());
+            List<User> listUser = new Gson().fromJson(result,new TypeToken<List<User>>(){}.getType());
+            User user = listUser.get(0);
             if(user !=null){
                 Resources.user = user;
                 Resources.isLogin = true;

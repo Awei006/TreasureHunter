@@ -18,10 +18,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.awei.info.User;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
@@ -217,7 +213,29 @@ public class ActNewItem extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            _imageFileName = String.valueOf(System.currentTimeMillis());
+            RequestPackage p = new RequestPackage();
+            p.setUri("http://webapicr3.azurewebsites.net/item/getItemId/" + Resources.user.userId);
+            p.setMethod("GET");
+
+            new GetItemIdTesk().execute();
+        }
+    }
+    public class GetItemIdTesk extends AsyncTask<RequestPackage, Void, String> {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            _imageFileName = result;
             upLoadImg(itemImg3,_imageFileName + "C");
             upLoadImg(itemImg2,_imageFileName + "B");
             upLoadImg(itemImg1,_imageFileName + "A");

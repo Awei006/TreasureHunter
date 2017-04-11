@@ -18,10 +18,6 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.awei.info.User;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -165,15 +161,6 @@ public class ActRegistered extends AppCompatActivity {
 
                         new RegisteredTask().execute(p);
 
-                        /*DBController.registered(edAccount.getText().toString(),
-                                edPassword.getText().toString(),
-                                edName.getText().toString(),
-                                edPhone.getText().toString(),
-                                edEmail.getText().toString(),
-                                edNickname.getText().toString(),
-                                2,
-                                dateForSql,
-                                sex);*/
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

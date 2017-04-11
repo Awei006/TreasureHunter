@@ -1,6 +1,5 @@
 package com.awei.info;
 
-import java.util.Date;
 
 /**
  * Created by aaa86 on 2017/3/25.
@@ -15,7 +14,7 @@ public class User {
     public String userMail;
     public String userNickname;
     public String userPhoto;
-    public Date userBirthday;
+    public String userBirthday;
     public String userSex;
     public int userVip;
     public float userScore;
@@ -25,7 +24,7 @@ public class User {
     public String addressDetial;
 
     public User(int userId, String userAccount, String userPassword, String userName,
-                String userPhone, String userMail, String userNickname, String userPhoto, Date userBirthday,
+                String userPhone, String userMail, String userNickname, String userPhoto, String userBirthday,
                 String userSex, int userVip, float userScore, int userMoney,
                 int cityId, int districId, String addressDetial) {
         this.userId = userId;

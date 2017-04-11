@@ -137,7 +137,7 @@ public class ActEditInfo extends AppCompatActivity {
 
     private void editUserInfo() {
         RequestPackage p = new RequestPackage();
-        p.setUri(String.format("http://webapicr3.azurewebsites.net/userInfo/uUser/{0}",Resources.user.userId));
+        p.setUri("http://webapicr3.azurewebsites.net/userInfo/uUser/" + Resources.user.userId);
         p.setMethod("POST");
         p.setSingleParam("userName",edName.getText().toString());
         p.setSingleParam("userMail",edEmail.getText().toString());
@@ -155,9 +155,10 @@ public class ActEditInfo extends AppCompatActivity {
         edEmail.setText(Resources.user.userMail);
         edNickname.setText(Resources.user.userNickname);
         if(Resources.user.userBirthday != null){
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            String date = dateFormat.format(Resources.user.userBirthday);
-            edBirthday.setText(date.toString());
+            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            //String date = dateFormat.format(Resources.user.userBirthday);
+            //edBirthday.setText(date.toString());
+            edBirthday.setText(Resources.user.userBirthday);
         }
         edAddress.setText(Resources.user.userName);
     }
