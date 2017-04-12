@@ -1,9 +1,5 @@
 package com.awei.info;
 
-/**
- * Created by aaa86 on 2017/4/10.
- */
-
 public class TrackItem {
     private int trackItemId;
     private int userId;

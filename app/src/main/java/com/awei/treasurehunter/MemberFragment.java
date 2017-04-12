@@ -38,7 +38,7 @@ public class MemberFragment extends Fragment {
                 if(Resources.isLogin){
 
                     RequestPackage p = new RequestPackage();
-                    p.setUri("http://webapicr3.azurewebsites.net/item/getMyItems/" + Resources.user.userId);
+                    p.setUri(Resources.apiUrl + "item/getMyItems/" + Resources.user.userId);
                     p.setMethod("GET");
                     new LoadMemberTask().execute(p);
                 }

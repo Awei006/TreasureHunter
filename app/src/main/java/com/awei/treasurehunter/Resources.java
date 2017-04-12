@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.awei.info.City;
+import com.awei.info.Distric;
 import com.awei.info.Item;
 import com.awei.info.User;
 
@@ -12,6 +14,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by iii on 2017/3/22.
@@ -19,12 +23,15 @@ import java.util.ArrayList;
 
 public class Resources {
     public static final String imgPath = "http://cr3fp4.azurewebsites.net/uploads/";
-    public static boolean isLogin = false;
+    public static final String apiUrl = "http://cr3webapi.azurewebsites.net/";
+
     public static User user = null;
     public static Item itemClick = null;
+    public static ArrayList<Item> myItems = new ArrayList<Item>();
+
+    public static boolean isLogin = false;
     public static boolean doRefreshScreen = false;
     public static boolean closeUpload = false;
-    public static ArrayList<Item> MyAllItem = new ArrayList<Item>();
 
     public static final String FRAG[] = {"首頁","商城","通知","會員"};
 
@@ -37,13 +44,6 @@ public class Resources {
             R.drawable.ic_c_cosmetic, R.drawable.ic_c_book, R.drawable.ic_c_stationary, R.drawable.ic_c_instrument,
             R.drawable.ic_c_vehicle, R.drawable.ic_c_dessert, R.drawable.ic_c_daily, R.drawable.ic_c_baby,
             R.drawable.ic_c_ticket, R.drawable.ic_c_sport, R.drawable.ic_c_accessory, R.drawable.ic_c_free,};
-
-    public static final String[] TXT_MEMBER = {"資料修改", "我的物品", "商城物品", "追蹤物品", "追蹤會員", "我的評價"};
-    private static final int[] ICONS_MEMBER = {R.drawable.ic_mb_eduser, R.drawable.ic_mb_myitem, R.drawable.ic_mb_mall,
-            R.drawable.ic_mb_likeitem, R.drawable.ic_mb_sale, R.drawable.ic_mb_evaluation, R.drawable.ic_mb_cash};
-
-    public static final String[] TXT_CITY = {"請選擇", "台北市", "新北市", "台中市", "高雄市", "屏東縣", "桃園縣", "嘉義縣", "花蓮縣", "宜蘭縣"};
-
 
     public static Bitmap getBitmapFromURL(String src){
 

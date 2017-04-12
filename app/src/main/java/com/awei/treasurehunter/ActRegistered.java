@@ -15,11 +15,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.awei.info.City;
+import com.awei.info.Distric;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -83,7 +94,10 @@ public class ActRegistered extends AppCompatActivity {
     AdapterView.OnItemSelectedListener spCity_itemSelect = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+            RequestPackage p = new RequestPackage();
+            p.setUri(Resources.apiUrl + "distric/" + position);
+            p.setMethod("GET");
+            new loadDistricInfoTesk().execute(p);
         }
 
         @Override
@@ -142,7 +156,7 @@ public class ActRegistered extends AppCompatActivity {
                         dateForSql = new java.sql.Date(date.getTime());
 
                         RequestPackage p = new RequestPackage();
-                        p.setUri("http://webapicr3.azurewebsites.net/userInfo/cUser");
+                        p.setUri(Resources.apiUrl + "userInfo/cUser");
                         p.setMethod("POST");
                         p.setSingleParam("userAccount",edAccount.getText().toString());
                         p.setSingleParam("userPassword",edPassword.getText().toString());
@@ -177,15 +191,23 @@ public class ActRegistered extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadCityInfo() {
+        RequestPackage p = new RequestPackage();
+        p.setUri(Resources.apiUrl + "city");
+        p.setMethod("GET");
+        new loadCityInfoTesk().execute(p);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_registered);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initialComponent();
+        loadCityInfo();
     }
+
+
 
     private void initialComponent() {
         edVerification = (EditText) findViewById(R.id.edVerification);
@@ -207,9 +229,7 @@ public class ActRegistered extends AppCompatActivity {
         btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
 
         spCity = (Spinner) findViewById(R.id.spCity);
-        spCity.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Resources.TXT_CITY));
         spTown = (Spinner) findViewById(R.id.spTown);
-        spTown.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Resources.TXT_CITY));
 
         layoutChcek = (LinearLayout) findViewById(R.id.layoutCheck);
         layoutChcek.setVisibility(View.INVISIBLE);
@@ -241,7 +261,32 @@ public class ActRegistered extends AppCompatActivity {
         private ProgressDialog pd = new ProgressDialog(ActRegistered.this);
         protected void onPreExecute() {
             super.onPreExecute();
-            pd.setMessage("註冊中!!完成後關閉");
+            pd.setMessage("載入中...");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+            String content = HttpManager.getData(params[0]);
+
+            return content;
+
+        }
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+            finish();
+        }
+    }
+    public class loadCityInfoTesk extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(ActRegistered.this);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("載入中...");
             pd.setCancelable(false);
             pd.show();
         }
@@ -259,7 +304,53 @@ public class ActRegistered extends AppCompatActivity {
             super.onPostExecute(result);
             pd.hide();
             pd.dismiss();
-            finish();
+            try {
+                ArrayList<String> listCity = new ArrayList<>();
+                listCity.add("縣市");
+                JSONArray array = new JSONArray(result);
+                for(int i=0;i<array.length();i++){
+                    JSONObject obj = array.getJSONObject(i);
+                    listCity.add(obj.getString("cityName"));
+                }
+                spCity.setAdapter(new ArrayAdapter(ActRegistered.this,android.R.layout.simple_list_item_1,listCity));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public class loadDistricInfoTesk extends AsyncTask<RequestPackage, Void, String> {
+
+        private ProgressDialog pd = new ProgressDialog(ActRegistered.this);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pd.setMessage("載入中...");
+            pd.setCancelable(false);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            pd.hide();
+            pd.dismiss();
+            try {
+                ArrayList<String> listDistrict = new ArrayList<>();
+                listDistrict.add("鄉鎮區");
+                JSONArray array = new JSONArray(result);
+                for(int i=0;i<array.length();i++){
+                    JSONObject obj = array.getJSONObject(i);
+                    listDistrict.add(obj.getString("districtName"));
+
+                }
+                spTown.setAdapter(new ArrayAdapter(ActRegistered.this,android.R.layout.simple_list_item_1,listDistrict));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

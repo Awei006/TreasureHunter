@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,10 +26,14 @@ public class ActLogin extends AppCompatActivity {
             String account = edAccount.getText().toString();
             String password = edPassword.getText().toString();
 
-            RequestPackage p = new RequestPackage();
-            p.setUri("http://webapicr3.azurewebsites.net/userInfo/login/" + account + "/" + password);
-            p.setMethod("GET");
-            new LoginTask().execute(p);
+            if("".equals(account) || "".equals(password)){
+                Toast.makeText(ActLogin.this,"帳號密碼不得為空",Toast.LENGTH_LONG).show();
+            }else{
+                RequestPackage p = new RequestPackage();
+                p.setUri(Resources.apiUrl + "userInfo/login/" + account + "/" + password);
+                p.setMethod("GET");
+                new LoginTask().execute(p);
+            }
         }
     };
     View.OnClickListener btnRegistered_click = new View.OnClickListener() {
@@ -95,8 +100,10 @@ public class ActLogin extends AppCompatActivity {
             pd.hide();
             pd.dismiss();
             List<User> listUser = new Gson().fromJson(result,new TypeToken<List<User>>(){}.getType());
-            User user = listUser.get(0);
-            if(user !=null){
+            Log.d("USER",listUser.size()+"");
+            if(listUser.size()>0){
+                User user = listUser.get(0);
+                user.userBirthday = user.userBirthday.substring(0,10);
                 Resources.user = user;
                 Resources.isLogin = true;
                 Resources.doRefreshScreen = true;

@@ -2,9 +2,6 @@ package com.awei.info;
 
 import java.sql.Date;
 
-/**
- * Created by aaa86 on 2017/4/10.
- */
 
 public class Request {
     private int requestId;

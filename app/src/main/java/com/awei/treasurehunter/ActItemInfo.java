@@ -41,7 +41,7 @@ public class ActItemInfo extends AppCompatActivity {
         ship.setText("測試用貨運");
 
         RequestPackage p = new RequestPackage();
-        p.setUri(String.format("http://webapicr3.azurewebsites.net/question/rQuestion"));
+        p.setUri(Resources.apiUrl +"question/rQuestion/" + Resources.itemClick.itemId);
         p.setMethod("GET");
 
         new MyTask().execute(p);
@@ -50,7 +50,7 @@ public class ActItemInfo extends AppCompatActivity {
     private void addQuestion(){
         for(final Question q : listQ){
             RequestPackage p = new RequestPackage();
-            p.setUri("http://webapicr3.azurewebsites.net/userInfo/rUserInfo/"+q.getUserId());
+            p.setUri(Resources.apiUrl + "userInfo/rUserInfo/"+q.getUserId());
             p.setMethod("GET");
 
             new rQuestionUser().execute(p);
@@ -102,7 +102,7 @@ public class ActItemInfo extends AppCompatActivity {
                 Question q = new Question(0,itemId,userId,description,null,date);
 
                 RequestPackage p = new RequestPackage();
-                p.setUri("xxxx/question/cQuestion");
+                p.setUri(Resources.apiUrl + "question/cQuestion");
                 p.setMethod("POST");
                 p.setSingleParam("itemId",itemId+"");
                 p.setSingleParam("userId",userId+"");
@@ -139,7 +139,7 @@ public class ActItemInfo extends AppCompatActivity {
                 dialogQuestion.dismiss();
 
                 RequestPackage p = new RequestPackage();
-                p.setUri("question/uQuestion/" + id);
+                p.setUri(Resources.apiUrl + "question/uQuestion/" + id);
                 p.setMethod("POST");
                 p.setSingleParam("questionAnswer",description);
                 new AnswerTesk().execute(p);

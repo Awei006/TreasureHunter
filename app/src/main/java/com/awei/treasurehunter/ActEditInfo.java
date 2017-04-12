@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -137,14 +136,14 @@ public class ActEditInfo extends AppCompatActivity {
 
     private void editUserInfo() {
         RequestPackage p = new RequestPackage();
-        p.setUri("http://webapicr3.azurewebsites.net/userInfo/uUser/" + Resources.user.userId);
+        p.setUri(Resources.apiUrl + "userInfo/uUser/" + Resources.user.userId);
         p.setMethod("POST");
         p.setSingleParam("userName",edName.getText().toString());
         p.setSingleParam("userMail",edEmail.getText().toString());
         p.setSingleParam("userNickname",edNickname.getText().toString());
         p.setSingleParam("userBirthday",dateForSql.toString());
-        //p.setSingleParam("cityId",dateForSql.toString());
-        //p.setSingleParam("districId",dateForSql.toString());
+        p.setSingleParam("cityId",spCity.getSelectedItem().toString());
+        p.setSingleParam("districId",spTown.getSelectedItem().toString());
         p.setSingleParam("addressDetail",edAddress.getText().toString());
 
         new MyTask().execute(p);
@@ -188,9 +187,9 @@ public class ActEditInfo extends AppCompatActivity {
         btnEditPwd = (Button)findViewById(R.id.btnEditPwd);
 
         spCity = (Spinner) findViewById(R.id.spCity);
-        spCity.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Resources.TXT_CITY));
+        //spCity.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Resources.TXT_CITY));
         spTown = (Spinner) findViewById(R.id.spTown);
-        spTown.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Resources.TXT_CITY));
+        //spTown.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Resources.TXT_CITY));
 
         imgBtnPhoto.setOnClickListener(imgBtnPhoto_click);
         btnDatePicker.setOnClickListener(btnDatePicker_click);

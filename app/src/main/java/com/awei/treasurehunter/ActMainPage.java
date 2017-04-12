@@ -149,6 +149,8 @@ public class ActMainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         InitialComponent();
+
+
     }
 
     private void InitialComponent() {

@@ -1,8 +1,5 @@
 package com.awei.info;
 
-/**
- * Created by aaa86 on 2017/4/10.
- */
 
 public class Score {
     private int scoreId;

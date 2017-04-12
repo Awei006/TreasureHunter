@@ -37,7 +37,7 @@ public class ActNewItem extends AppCompatActivity {
 
 
         RequestPackage p = new RequestPackage();
-        p.setUri("http://webapicr3.azurewebsites.net/item/cItem");
+        p.setUri(Resources.apiUrl + "item/cItem");
         p.setMethod("POST");
         p.setSingleParam("userId",Resources.user.userId + "");
         p.setSingleParam("itemName",edTitle.getText().toString());
@@ -214,10 +214,10 @@ public class ActNewItem extends AppCompatActivity {
             super.onPostExecute(result);
 
             RequestPackage p = new RequestPackage();
-            p.setUri("http://webapicr3.azurewebsites.net/item/getItemId/" + Resources.user.userId);
+            p.setUri(Resources.apiUrl + "item/getItemId/" + Resources.user.userId);
             p.setMethod("GET");
 
-            new GetItemIdTesk().execute();
+            new GetItemIdTesk().execute(p);
         }
     }
     public class GetItemIdTesk extends AsyncTask<RequestPackage, Void, String> {

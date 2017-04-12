@@ -1,9 +1,6 @@
 package com.awei.info;
 
 
-/**
- * Created by aaa86 on 2017/3/25.
- */
 
 public class User {
     public int userId;

@@ -36,7 +36,7 @@ public class MainFragment extends Fragment {
             Resources.itemClick = (Item) itemGridView.getItem(position);
 
             RequestPackage p = new RequestPackage();
-            p.setUri("http://webapicr3.azurewebsites.net/userInfo/rUserInfo" + Resources.itemClick.userId);
+            p.setUri(Resources.apiUrl + "userInfo/rUserInfo" + Resources.itemClick.userId);
             p.setMethod("GET");
 
             new LoadClickTask().execute(p);

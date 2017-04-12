@@ -26,7 +26,7 @@ class AdapterItemGridView extends BaseAdapter {
     public AdapterItemGridView(Context c) {
         this.context = c;
         RequestPackage p = new RequestPackage();
-        p.setUri("http://webapicr3.azurewebsites.net/item/rItem");
+        p.setUri(Resources.apiUrl + "item/rItem");
         p.setMethod("GET");
         new MyTask().execute(p);
     }
