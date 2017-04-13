@@ -15,14 +15,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.awei.info.City;
-import com.awei.info.Distric;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -94,10 +88,12 @@ public class ActRegistered extends AppCompatActivity {
     AdapterView.OnItemSelectedListener spCity_itemSelect = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            RequestPackage p = new RequestPackage();
-            p.setUri(Resources.apiUrl + "distric/" + position);
-            p.setMethod("GET");
-            new loadDistricInfoTesk().execute(p);
+            if(position!=0){
+                RequestPackage p = new RequestPackage();
+                p.setUri(Resources.apiUrl + "district/" + position);
+                p.setMethod("GET");
+                new loadDistricInfoTesk().execute(p);
+            }
         }
 
         @Override
@@ -170,8 +166,8 @@ public class ActRegistered extends AppCompatActivity {
                         p.setSingleParam("userScore","0");
                         p.setSingleParam("userMoney","0");
                         p.setSingleParam("cityId",spCity.getSelectedItemPosition()+1+"");
-                        p.setSingleParam("districId",spTown.getSelectedItemPosition()+1+"");
-                        p.setSingleParam("addressDetial",edAddress.getText().toString());
+                        p.setSingleParam("districtId",spTown.getSelectedItemPosition()+"");
+                        p.setSingleParam("addressDetail",edAddress.getText().toString());
 
                         new RegisteredTask().execute(p);
 
@@ -261,7 +257,7 @@ public class ActRegistered extends AppCompatActivity {
         private ProgressDialog pd = new ProgressDialog(ActRegistered.this);
         protected void onPreExecute() {
             super.onPreExecute();
-            pd.setMessage("載入中...");
+            pd.setMessage("註冊中...完成後將回到主畫面");
             pd.setCancelable(false);
             pd.show();
         }
@@ -340,7 +336,6 @@ public class ActRegistered extends AppCompatActivity {
             pd.dismiss();
             try {
                 ArrayList<String> listDistrict = new ArrayList<>();
-                listDistrict.add("鄉鎮區");
                 JSONArray array = new JSONArray(result);
                 for(int i=0;i<array.length();i++){
                     JSONObject obj = array.getJSONObject(i);

@@ -1,12 +1,8 @@
 package com.awei.treasurehunter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.awei.info.City;
-import com.awei.info.Distric;
 import com.awei.info.Item;
 import com.awei.info.User;
 
@@ -14,8 +10,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by iii on 2017/3/22.
@@ -27,7 +22,9 @@ public class Resources {
 
     public static User user = null;
     public static Item itemClick = null;
+    public static List<Item> AllItems= new ArrayList<>();
     public static ArrayList<Item> myItems = new ArrayList<Item>();
+
 
     public static boolean isLogin = false;
     public static boolean doRefreshScreen = false;
@@ -44,6 +41,7 @@ public class Resources {
             R.drawable.ic_c_cosmetic, R.drawable.ic_c_book, R.drawable.ic_c_stationary, R.drawable.ic_c_instrument,
             R.drawable.ic_c_vehicle, R.drawable.ic_c_dessert, R.drawable.ic_c_daily, R.drawable.ic_c_baby,
             R.drawable.ic_c_ticket, R.drawable.ic_c_sport, R.drawable.ic_c_accessory, R.drawable.ic_c_free,};
+
 
     public static Bitmap getBitmapFromURL(String src){
 

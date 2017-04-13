@@ -35,7 +35,7 @@ class HttpManager {
 
             StringBuilder sb = new StringBuilder();
 
-            //con.connect();
+            con.connect();
             reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             String line;

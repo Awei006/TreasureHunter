@@ -1,6 +1,5 @@
 package com.awei.treasurehunter;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -173,15 +172,15 @@ public class ActNewItem extends AppCompatActivity {
     EditText edTitle, edDescription;
     Spinner spClassification;
 
-    public class uploadToServer extends AsyncTask<RequestPackage, Void, String> {
+    public static class uploadToServer extends AsyncTask<RequestPackage, Void, String> {
 
-        private ProgressDialog pd = new ProgressDialog(ActNewItem.this);
+        //private ProgressDialog pd = new ProgressDialog(ActNewItem.this);
         protected void onPreExecute() {
             super.onPreExecute();
             Log.d("TAG",_imageFileName+".jpg");
-            pd.setMessage("物品上傳中!!請稍後");
-            pd.setCancelable(false);
-            pd.show();
+            //pd.setMessage("物品上傳中!!請稍後");
+            //pd.setCancelable(false);
+            //pd.show();
         }
 
         @Override
@@ -193,10 +192,10 @@ public class ActNewItem extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            pd.hide();
-            pd.dismiss();
-            if(Resources.closeUpload)
-                finish();
+            //pd.hide();
+            //pd.dismiss();
+            //if(Resources.closeUpload)
+            //    finish();
         }
     }
     public class NewItemTask extends AsyncTask<RequestPackage, Void, String> {
@@ -240,6 +239,7 @@ public class ActNewItem extends AppCompatActivity {
             upLoadImg(itemImg2,_imageFileName + "B");
             upLoadImg(itemImg1,_imageFileName + "A");
             Resources.doRefreshScreen = true;
+            finish();
         }
     }
 }

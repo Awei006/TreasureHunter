@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,18 +26,22 @@ import com.google.gson.reflect.TypeToken;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import static com.awei.treasurehunter.Resources.user;
+
 public class ActItemInfo extends AppCompatActivity {
 
     private AlertDialog dialogQuestion;
     private Intent intent;
     private ArrayList<Question> listQ = new ArrayList<>();
     private String imgPath = "http://cr3fp4.azurewebsites.net/uploads/";
+
+
     private void getInfo() {
         intent = getIntent();
         itemIcon.setImageBitmap(Resources.getBitmapFromURL(imgPath + Resources.itemClick.itemId + "A.jpg") );
         userIcon.setImageResource(R.drawable.ic_c_free);
-        userName.setText(intent.getExtras().getString("USER_NICKNAME"));
-        userCity.setText("測試");
+        userName.setText(intent.getExtras().getString(Dictionary.USER_NICKNAME));
+        userCity.setText(intent.getExtras().getInt(Dictionary.USER_CITY)+"");
         description.setText(Resources.itemClick.itemDescription);
         ship.setText("測試用貨運");
 
@@ -44,28 +49,38 @@ public class ActItemInfo extends AppCompatActivity {
         p.setUri(Resources.apiUrl +"question/rQuestion/" + Resources.itemClick.itemId);
         p.setMethod("GET");
 
-        new MyTask().execute(p);
+        String result = HttpManager.getData(p);
+        Log.d("result",result);
+        listQ = new Gson().fromJson(result,new TypeToken<ArrayList<Question>>(){}.getType());
+        addQuestion();
     }
 
     private void addQuestion(){
         for(final Question q : listQ){
             RequestPackage p = new RequestPackage();
-            p.setUri(Resources.apiUrl + "userInfo/rUserInfo/"+q.getUserId());
+            p.setUri(Resources.apiUrl + "userInfo/rUser/"+q.getUserId());
             p.setMethod("GET");
 
-            new rQuestionUser().execute(p);
-
+            String result = HttpManager.getData(p);
+            ArrayList<User> listuser = new Gson().fromJson(result,new TypeToken<ArrayList<User>>(){}.getType());
+            User user = listuser.get(0);
 
             LayoutInflater inflater = LayoutInflater.from(this);
             row = inflater.inflate(R.layout.view_leave_msg, null);
 
+            ImageView imgPhoto = (ImageView)row.findViewById(R.id.imgPhoto);
+            imgPhoto.setImageResource(R.drawable.ic_c_3c);
 
+            TextView txtName = (TextView)row.findViewById(R.id.txtName);
+            txtName.setText(user.userNickname);
 
             TextView txtContent = (TextView)row.findViewById(R.id.txtContent);
             txtContent.setText(q.getQuestionDescription());
 
             TextView txtDate = (TextView)row.findViewById(R.id.txtDate);
-            txtDate.setText(q.getQuestiontime().toString());
+            String dateForString = q.getQuestiontime().substring(0,10);
+            txtDate.setText(dateForString);
+            Log.d("DATE",dateForString);
 
             TextView txtAnswer = (TextView)row.findViewById(R.id.txtAnswer);
             if(q.getQuestionAnswer()!=null)
@@ -74,7 +89,7 @@ public class ActItemInfo extends AppCompatActivity {
                 txtAnswer.setText("尚未回覆");
 
             Button btnAns = (Button)row.findViewById(R.id.btnAns);
-            if(Resources.user != null && Resources.itemClick.userId == Resources.user.userId)
+            if(user != null && Resources.itemClick.userId == user.userId)
                 btnAns.setVisibility(View.VISIBLE);
 
             btnAns.setOnClickListener(new View.OnClickListener() {
@@ -95,11 +110,10 @@ public class ActItemInfo extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int userId = Resources.user.userId;
+                int userId = user.userId;
                 int itemId = Resources.itemClick.itemId;
                 String description = edContent.getText().toString();
                 Date date = new Date(System.currentTimeMillis());
-                Question q = new Question(0,itemId,userId,description,null,date);
 
                 RequestPackage p = new RequestPackage();
                 p.setUri(Resources.apiUrl + "question/cQuestion");
@@ -109,7 +123,6 @@ public class ActItemInfo extends AppCompatActivity {
                 p.setSingleParam("questionDescription",description);
                 p.setSingleParam("questionAnswer",null);
                 p.setSingleParam("questiontime",date.toString());
-                //DBController.cQuestion(q);
                 new cQuestion().execute(p);
                 dialogQuestion.dismiss();
             }
@@ -143,7 +156,6 @@ public class ActItemInfo extends AppCompatActivity {
                 p.setMethod("POST");
                 p.setSingleParam("questionAnswer",description);
                 new AnswerTesk().execute(p);
-                //DBController.uQuestion(id,description);
             }
         });
 
@@ -233,65 +245,6 @@ public class ActItemInfo extends AppCompatActivity {
     ImageButton imgbtnTrack;
     View row;
 
-    public class MyTask extends AsyncTask<RequestPackage, Void, String> {
-
-        private ProgressDialog pd = new ProgressDialog(ActItemInfo.this);
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd.setMessage("請稍後!!");
-            pd.setCancelable(false);
-            pd.show();
-        }
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-
-            String content = HttpManager.getData(params[0]);
-
-            return content;
-
-        }
-
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            pd.hide();
-            pd.dismiss();
-            Gson gson = new Gson();
-            listQ = gson.fromJson(result,new TypeToken<ArrayList<Question>>(){}.getType());
-            addQuestion();
-        }
-    }
-    public class rQuestionUser extends AsyncTask<RequestPackage, Void, String> {
-
-        private ProgressDialog pd = new ProgressDialog(ActItemInfo.this);
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pd.setMessage("請稍後!!");
-            pd.setCancelable(false);
-            pd.show();
-        }
-
-        @Override
-        protected String doInBackground(RequestPackage... params) {
-
-            String content = HttpManager.getData(params[0]);
-
-            return content;
-
-        }
-
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            pd.hide();
-            pd.dismiss();
-
-            User user = new Gson().fromJson(result,new TypeToken<User>(){}.getType());
-            ImageView imgPhoto = (ImageView)row.findViewById(R.id.imgPhoto);
-            imgPhoto.setImageResource(R.drawable.ic_c_3c);
-            TextView txtName = (TextView)row.findViewById(R.id.txtName);
-            txtName.setText(user.userNickname);
-        }
-    }
     public class cQuestion extends AsyncTask<RequestPackage, Void, String> {
 
         private ProgressDialog pd = new ProgressDialog(ActItemInfo.this);

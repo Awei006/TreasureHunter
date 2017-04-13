@@ -1,23 +1,20 @@
 package com.awei.info;
 
-import java.sql.Date;
-
-
 public class Question {
     private int questionId;
     private int itemId;
     private int userId;
     private String questionDescription;
     private String questionAnswer;
-    private Date questiontime;
+    private String questionTime;
 
-    public Question(int questionId, int itemId, int userId, String questionDescription, String questionAnswer, Date questiontime) {
+    public Question(int questionId, int itemId, int userId, String questionDescription, String questionAnswer, String questionTime) {
         this.questionId = questionId;
         this.itemId = itemId;
         this.userId = userId;
         this.questionDescription = questionDescription;
         this.questionAnswer = questionAnswer;
-        this.questiontime = questiontime;
+        this.questionTime = questionTime;
     }
 
     public int getQuestionId() {
@@ -60,11 +57,11 @@ public class Question {
         this.questionAnswer = questionAnswer;
     }
 
-    public Date getQuestiontime() {
-        return questiontime;
+    public String getQuestiontime() {
+        return questionTime;
     }
 
-    public void setQuestiontime(Date questiontime) {
-        this.questiontime = questiontime;
+    public void setQuestiontime(String questiontime) {
+        this.questionTime = questiontime;
     }
 }
